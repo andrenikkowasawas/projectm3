@@ -82,6 +82,10 @@ public class Dining {
 		this.deleted = "deleted";
 	}
 	
+	public void recover() {
+		this.deleted = null;
+	}
+	
 	@Override
 	public String toString() {
 		return "Dining [id=" + id + ", diningName=" + diningName + ", diningDescription=" + diningDescription +"imagePath="+imgFilePath+"]";

@@ -99,5 +99,9 @@ public class InRoomOrder {
 		this.deleted = "deleted";
 	}
 	
+	public void recover() {
+		this.deleted = null;
+	}
+	
 	
 }

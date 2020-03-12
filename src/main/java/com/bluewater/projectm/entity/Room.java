@@ -45,6 +45,10 @@ public class Room {
 	public void setDeleted() {
 		this.deleted = "deleted";
 	}
+	
+	public void recover() {
+		this.deleted = null;
+	}
 
 	@Basic
 	@Column(name = "roomNo", nullable = false, length = 5)
@@ -68,6 +72,8 @@ public class Room {
 	public void setOccupyingGuest(int occupyingGuest) {
 		this.occupyingGuest = occupyingGuest;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", roomNo=" + roomNo + ", guest=" + guest + "]";

@@ -57,6 +57,10 @@ public class InRoomDiningCategory {
 		this.deleted = "deleted";
 	}
 	
+	public void recover() {
+		this.deleted = null;
+	}
+	
 	@Override
 	public String toString() {
 		return "InRoomDiningCategory [id=" + id + ", menuCategory=" + menuCategory + "]";

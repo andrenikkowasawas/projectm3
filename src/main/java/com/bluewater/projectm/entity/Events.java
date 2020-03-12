@@ -54,6 +54,10 @@ public class Events {
 		this.deleted = "deleted";
 	}
 	
+	public void recover() {
+		this.deleted = null;
+	}
+	
 	@Override
 	public String toString() {
 		return "Events [id=" + id + ", eventName=" + eventName + ", imgFilePath=" + imgFilePath + "]";

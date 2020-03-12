@@ -95,7 +95,20 @@ public class DiningReservation {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
+	
+	@Basic
+	@Column(name = "deleted", nullable = true, length = 25)
+	private String deleted;
+	public String getDeleted() {
+		return deleted;
+	}
+	public void setDeleted() {
+		this.deleted = "deleted";
+	}
+	
+	public void recover() {
+		this.deleted = null;
+	}
 
 	@Override
 	public String toString() {

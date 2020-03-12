@@ -16,4 +16,9 @@ public interface EventsRepository extends JpaRepository<Events, Integer> {
 	
 	@Query(value = "SELECT * FROM `events` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<Events> findByNotDeleted();
+	
+	@Query(value = "SELECT * FROM `events` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<Events> findByDeleted();
+	
+	
 }

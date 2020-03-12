@@ -15,4 +15,7 @@ public interface ResortServicesRepository extends JpaRepository<ResortServices, 
 	
 	@Query(value = "SELECT * FROM `resort_services` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<ResortServices> findByNotDeleted();
+	
+	@Query(value = "SELECT * FROM `resort_services` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<ResortServices> findByDeleted();
 }

@@ -15,4 +15,7 @@ public interface ServicesRepository extends JpaRepository<Services, Integer>  {
 	public Services findById(int id);
 	@Query(value = "SELECT * FROM `services` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<Services> findByNotDeleted();
+	
+	@Query(value = "SELECT * FROM `services` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<Services> findByDeleted();
 }

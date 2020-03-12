@@ -17,7 +17,7 @@ td {
 <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">ORDER LIST</h3>
-              <a href="http://localhost:8081/admin/in-room-dining-category-list/orderarchives">Archive</a>
+              <a href="http://localhost:8081/admin/in-room-dining-category-list/orderlist">Back</a>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -30,7 +30,7 @@ td {
 					<th>No. of Order</th>
 					<th>Amount</th>
 					<th>Status</th>
-					<th>Action</th>
+					
                 </tr>
          <c:forEach items="${orderlist}" var="ol">
 				<tr>		  	
@@ -41,10 +41,7 @@ td {
 					<td>${ol.noOfOrders}</td>	
 					<td>${ol.totalAmount}</td>
 					<td>${ol.status}</td>
-					<td>
-				<a href="http://localhost:8081/admin/inRoomMenu/Order/update/${ol.id}">Done</a>|<a
-							href="http://localhost:8081/admin/inRoomMenu/Order/delete/${ol.id}">Close</a>
-			</td>	
+					
 				</tr>
 		</c:forEach>
            </tbody></table>

@@ -17,9 +17,7 @@ td {
 <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Category</h3>
-              	<a href="http://localhost:8081/admin/in-room-dining-category-archive">Archive</a>
-   	   								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inroomcatModal" style="float:right;">ADD CATEGORY</button>
-   
+   	   								<a href="http://localhost:8081/admin/in-room-dining-category-list">Back</a>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -30,7 +28,7 @@ td {
 		<tr>		  	
 			
 			<td><a href="http://localhost:8081/admin/in-room-dining-category-list/${category.id }">${category.menuCategory}</a></td>
-			<td><a href="http://localhost:8081/admin/in-room-dining-category-list/remove/${category.id}">Delete</a></td>
+			<td><a href="http://localhost:8081/admin/in-room-dining-category-list/recover/${category.id}">Recover</a></td>
 		</tr>
 		</c:forEach>
   </tbody>

@@ -15,4 +15,7 @@ public interface ThemedDinerRepository  extends JpaRepository<ThemedDiner, Integ
 	
 	@Query(value = "SELECT * FROM `themed_diner` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<ThemedDiner> findByNotDeleted();
+	
+	@Query(value = "SELECT * FROM `themed_diner` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<ThemedDiner> findByDeleted();
 }

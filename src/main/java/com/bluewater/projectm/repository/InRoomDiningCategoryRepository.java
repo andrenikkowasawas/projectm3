@@ -15,5 +15,7 @@ public interface InRoomDiningCategoryRepository extends JpaRepository<InRoomDini
 	
 	@Query(value = "SELECT * FROM `in_room_dining_category` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<InRoomDiningCategory> findByNotDeleted();
+	@Query(value = "SELECT * FROM `in_room_dining_category` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<InRoomDiningCategory> findByDeleted();
 	
 }
