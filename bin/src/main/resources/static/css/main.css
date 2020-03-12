@@ -1,0 +1,349 @@
+p{
+		font-family: 'Alegreya Sans SC';
+	
+}
+
+a{
+	text-decoration-style:none;
+}
+.background {
+
+background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+      url("../image/bg5.jpg");
+}
+.menu-img{
+	width: 200px;
+	height: 250px;
+	border-radius:8%;
+}
+.carousel{
+	padding-top: 70px !important;
+	padding-left: 170px;
+	padding-right: 170px;
+	padding-bottom: 50px;
+}
+.box {
+  width:20px;
+  height:30px;
+  border:1px solid grey;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+  position: relative;
+}
+.welcome-logo{
+	padding-top: 50px;
+	margin: auto;
+	 width: 30%;
+  padding-top: 50px;
+}
+
+.welcome{
+	margin-top: 100px;
+	color:white;
+}
+
+
+.gotomenubtn{
+ 	margin-top: 50px;
+ 	padding: 20px;
+ 	font-size: 40px;
+}
+
+.menubtn{
+	border: 1px solid blue;
+	width: 27%;
+	height: 150px;
+	margin:auto;
+	margin:20px;
+	background-color: white;
+}
+
+.containermenu{
+	padding: 70px;
+}
+
+
+
+#menu-btn button:hover {
+	background-color:  #c0ded9;
+}
+
+
+.card{
+  margin-bottom: 10px;
+}
+
+modal {
+	margin-bottom: 15px;
+}
+
+a{
+	color: white !important;
+	text-decoration: none;
+	font-size: 30px;
+	font-family: 'Alegreya Sans SC';
+}
+.carousel-caption{
+	
+	background-color: rgba(0, 0, 0, 0.5);
+	 box-sizing: border-box;
+  width: 200px;
+  height: 70px;
+  margin-left: -20px;
+}
+
+
+
+
+.menu-date{
+	font-size: 20px;
+	color: white;
+	margin-left: 70px;
+	margin-top: 30px;
+}
+
+.dining-dash-btn{
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	background-color:rgba(0, 0, 0, 0.1);
+	color: white;
+}
+
+a {
+	text-decoration:none;
+}
+
+.diningreservationform{
+	margin:auto;
+	width: 400px;
+	padding: 30px;
+	color: white;
+	font-size: 20px;
+	font-family:'Alegreya Sans SC';
+	margin-top: 50px;
+}
+
+.modalbody-ff{
+	font-family: 'Alegreya Sans';
+}
+.modal-title{
+		font-family:'Alegreya Sans SC';
+	
+}
+
+
+.modal-confirm {		
+		color: #636363;
+		width: 325px;
+	}
+	.modal-confirm .modal-content {
+		padding: 20px;
+		border-radius: 5px;
+		border: none;
+	}
+	.modal-confirm .modal-header {
+		border-bottom: none;   
+        position: relative;
+	}
+	.modal-confirm h4 {
+		text-align: center;
+		font-size: 26px;
+		margin:auto;
+		margin-top: 25px;
+	}
+	.modal-confirm .form-control, .modal-confirm .btn {
+		min-height: 40px;
+		border-radius: 3px; 
+	}
+	.modal-confirm .close {
+        position: absolute;
+		top: -5px;
+		right: -5px;
+	}	
+	.modal-confirm .modal-footer a {
+		border: none;
+		text-align: center;
+		border-radius: 5px;
+		font-size: 26px;
+		font-family: 'Varela Round', sans-serif;
+		
+	}	
+	.modal-confirm .icon-box {
+		color: #fff;		
+		position: absolute;
+		margin: 0 auto;
+		left: 0;
+		right: 0;
+		top: -70px;
+		width: 95px;
+		height: 95px;
+		border-radius: 50%;
+		z-index: 9;
+		background: blue;
+		padding: 15px;
+		text-align: center;
+		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+	}
+	.modal-confirm .icon-box i {
+		font-size: 58px;
+		position: relative;
+		top: 3px;
+		margin:auto;
+	}
+	.modal-confirm.modal-dialog {
+		margin-top: 80px;
+	}
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+		background: blue;
+		text-decoration: none;
+		transition: all 0.4s;
+        line-height: normal;
+        border: none;
+    }
+
+	.modal-alert-confirm{
+			font-family: 'Varela Round', sans-serif;
+	
+	}
+
+
+
+.material-icons{
+	font-size: 50px;
+	margin-left: 50px;
+	margin-bottom: 30px;
+}
+
+.resortservices{
+	margin: auto;
+	margin: 0 100px 0 120px;
+
+	
+	padding: 20px 100px 20px 20px;
+	  height: 380px;
+	  color: white;
+	  			font-family: 'Varela Round', sans-serif;
+	  border: 1px solid red;
+	
+}
+
+.adventures{
+	margin: auto;
+	margin: 0 100px 0 120px;
+
+	
+	padding: 20px 0px 20px 20px;
+	  height: 380px;
+	  color: white;
+	  			font-family: 'Varela Round', sans-serif;
+	  
+	
+}
+
+td{
+	font-size:25px;
+	padding: 10px 20px;
+}
+
+.overflow-auto {
+	color: white;
+	
+}
+
+
+
+.relax{
+	display: inline-block;
+	
+}
+
+.boxboard{
+	margin: 20px 80px 0 80px;
+	
+}
+.relax-menu-img{
+	width: 180px;
+	height: 250px;
+	border-radius:8%;
+}
+
+.adventures-menu-img{
+	width: 180px;
+	height: 250px;
+	margin-right: 50px;
+	margin-left: 50px;
+	border-radius:8%;
+}
+
+.spaservice-menu-img{
+	width: 150px;
+	height: 200px;
+	border-radius:8%;
+}
+.card{
+	padding: 0px;
+}
+.polaroid{
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.20);
+}
+
+.feedback-form{
+	
+	margin:auto;
+	width:70%;
+	padding: 30px;
+	margin-top: 50px !important;
+}
+
+.title{
+	margin-top: 50px;
+	color:white;
+	font-size: 35px; 
+	font-family: 'Varela Round', sans-serif;
+}
+
+.room-container{
+}
+
+#room-dashboard ul li{
+	list-style-type:none;
+display:inline-block;
+padding: 10px;
+	
+}
+#room{
+	margin-top: 20px !important;
+	font-size: 50px;
+	margin:auto;
+	margin-bottom: 30px !important;
+	color:white;
+	background-color: red;
+	height: 90px;
+}
+
+#guest{
+	font-size: 5px;
+}
+
+#admin-nav ul{
+	list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #1a74bc;
+}
+
+#admin-nav li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color on hover */
+#admin-nav li a:hover {
+  background-color:rgba(0, 0, 0, 0.5) ;
+  color: white;
+}
