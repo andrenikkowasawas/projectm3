@@ -29,8 +29,6 @@ import com.bluewater.projectm.repository.InRoomDiningMenuRepository;
 import com.bluewater.projectm.repository.InRoomOrderRepository;
 import com.bluewater.projectm.repository.ThemedDinerRepository;
 import com.bluewater.projectm.repository.ThemedDinerReservationRepository;
-import com.bluewater.projectm.service.DiningService;
-
 @Controller(value = "diningController")
 @RequestMapping(value = "/guest")
 public class DiningController {

@@ -23,7 +23,6 @@ import com.bluewater.projectm.repository.InRoomDiningMenuRepository;
 import com.bluewater.projectm.repository.ResortServicesRepository;
 import com.bluewater.projectm.repository.RoomRepository;
 import com.bluewater.projectm.repository.ThemedDinerRepository;
-import com.bluewater.projectm.service.GuestService;
 
 import net.bytebuddy.dynamic.DynamicType.Builder.FieldDefinition.Optional;
 
