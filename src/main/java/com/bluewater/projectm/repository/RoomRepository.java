@@ -15,4 +15,7 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 	
 	@Query(value = "SELECT * FROM `room` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<Room> findByNotDeleted();
+	
+	@Query(value = "SELECT * FROM `room` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<Room> findByDeleted();
 }
