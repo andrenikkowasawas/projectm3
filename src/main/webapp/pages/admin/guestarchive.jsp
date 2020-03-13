@@ -14,7 +14,7 @@ td {
   <div class="content-wrapper" style="min-height: 925.8px;">
 	
 	<section class="content">
-<div class="box">
+<div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">GUEST ARCHIVE</h3>
               <a href="http://localhost:8081/admin/home">Home</a>
