@@ -121,7 +121,7 @@ td {
  
   
 			
-
+</section></div>
 	
 	
 	</jsp:attribute>

@@ -37,29 +37,25 @@ public class AmumaSpaController {
 	@Autowired
 	private SpaReservationRepository spaReservationRepository;
 	
-	
-	
-	@Autowired
-	private ReservationRepository reservationRepository;
-	
 	@Autowired
 	private ServicesRepository servicesRepository;
 
 	
+	//display information about a particular service/therapy
 	@RequestMapping(method = RequestMethod.GET, value = "/amumaspa/{guestId}/{serviceId}")
 	public String showServiceInfo(@PathVariable(name = "serviceId") int serviceId, @PathVariable(name = "guestId") int guestId,
 			ModelMap map) {
 		Services  service = servicesRepository.getOne(serviceId);
 		Guest guest = guestRepository.getOne(guestId);
-		
 		map.addAttribute("guestId", guest.getId());
-		
 		map.addAttribute("service", service);
 		
 		return "guest/amumaspa/serviceinfo";
 	}
 	
 	
+	
+	//show spa reservation form
 	@RequestMapping(method = RequestMethod.GET, value = "/amumaspa/{guestId}/{serviceId}/addreservation")
 	public String showSpaReservationForm(@PathVariable(name = "serviceId") int serviceId, @PathVariable(name = "guestId") int guestId,
 			ModelMap map) {
@@ -72,6 +68,7 @@ public class AmumaSpaController {
 	}
 
 	
+	//save spa therapy reservation
 	@RequestMapping(method = RequestMethod.POST, value = "/amumaspa/reservation/{guestId}/{serviceId}")
 	public String addSpaTherapyReservation(@PathVariable(name = "serviceId") int serviceId, @PathVariable(name = "guestId") int guestId,
 			ModelMap map, SpaReservation sr ) {
@@ -88,15 +85,18 @@ public class AmumaSpaController {
 	}
 
 	
+	//show list of services 
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/relax/spa")
 	public String spa(@PathVariable(name="id") int guestId, ModelMap map,
 			Services services) {
 		Guest guest  = guestRepository.getOne(guestId);
-		map.addAttribute("servicesList", servicesRepository.findAll() );
+		map.addAttribute("servicesList", servicesRepository.findByNotDeleted() );
 		map.addAttribute("guestId", guest.getId());
 		return"guest/amumaspa/signatureTherapies";
 	}
 
+	
+	//display gym information
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/relax/gym")
 	public String gym(@PathVariable(name="id") int guestId, ModelMap map) {
 		Guest guest  = guestRepository.getOne(guestId);
@@ -106,10 +106,7 @@ public class AmumaSpaController {
 	}
 	
 
-	
-
-	
-	//SALON
+	//shows salon information
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/relax/salon")
 	public String salon(@PathVariable(name="id") int guestId, ModelMap map) {
 		Guest guest  = guestRepository.getOne(guestId);

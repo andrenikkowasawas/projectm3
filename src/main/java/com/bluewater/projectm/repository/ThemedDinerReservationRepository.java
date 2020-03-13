@@ -28,6 +28,3 @@ public interface ThemedDinerReservationRepository  extends JpaRepository<ThemedD
 	@Query(value = "SELECT * FROM `themed_diner_reservation` WHERE `deleted` IS NOT NULL", nativeQuery=true)
 	List<ThemedDinerReservation> findByDeleted();
 }
-
-
-

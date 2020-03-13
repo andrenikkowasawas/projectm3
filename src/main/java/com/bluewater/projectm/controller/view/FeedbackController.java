@@ -24,6 +24,9 @@ public class FeedbackController {
 	private FeedbackRepository feedbackRepository;
 	
 	
+	
+//FEEDBACK
+	//	shows feedback form
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/feedback")
 	public String feedbackForm(@PathVariable(name = "id") int guestId,ModelMap model) {
 		Guest guest = guestRepository.getOne(guestId);
@@ -32,6 +35,8 @@ public class FeedbackController {
 		return"guest/feedback/form";
 	}
 	
+	
+	//saves guest feedback
 	@RequestMapping(method = RequestMethod.POST, value="/{id}/feedback")
 	public String guestFeedback(@PathVariable(name = "id") int guestId,ModelMap model, Feedback feedback) {
 		Guest guest = guestRepository.getOne(guestId);

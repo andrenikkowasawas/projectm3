@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.bluewater.projectm.entity.Feedback;
+import com.bluewater.projectm.entity.Dining;
 import com.bluewater.projectm.entity.Guest;
 
 @Repository ("guestRepository")
@@ -33,11 +33,6 @@ public interface GuestRepository extends JpaRepository<Guest, Integer>{
 	@Query(value = "SELECT COUNT(guest_age) FROM Guest g WHERE g.guest_age >= 51", nativeQuery = true)
 	public int countByGuestAgeFiftyAbove();
 	
-	@Query(value = "SELECT * FROM `guest` WHERE `deleted` IS NULL", nativeQuery=true)
-	List<Feedback> findByNotDeleted();
-
-	@Query(value = "SELECT * FROM `guest` WHERE `deleted` IS NOT NULL", nativeQuery=true)
-	List<Feedback> findByDeleted();
 	
 	
 	

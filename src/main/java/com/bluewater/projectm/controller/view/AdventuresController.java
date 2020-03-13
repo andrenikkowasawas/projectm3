@@ -18,6 +18,9 @@ public class AdventuresController {
 	private GuestRepository guestRepository;
 
 	
+	
+	
+	//display adventure categories
 	@RequestMapping(method = RequestMethod.GET, value = "/{guestId}/adventures")
 	public String adventures(@PathVariable(name = "guestId") int guestId,ModelMap map) {
 		Guest guest = guestRepository.getOne(guestId);
@@ -25,6 +28,7 @@ public class AdventuresController {
 		return "guest/adventures/adventures-menu";
 	}
 	
+	//displays the aquamania category of adventure
 	@RequestMapping(method = RequestMethod.GET, value = "/{guestId}/adventures/aquamania")
 	public String aquamania(@PathVariable(name = "guestId") int guestId,ModelMap map) {
 		Guest guest = guestRepository.getOne(guestId);
@@ -33,6 +37,8 @@ public class AdventuresController {
 		return "guest/adventures/aqumania";
 	}
 	
+	
+	//displays the leisure activities category of adventure
 	@RequestMapping(method = RequestMethod.GET, value = "/{guestId}/adventures/activities")
 	public String leisureActivities(@PathVariable(name = "guestId") int guestId,ModelMap map) {
 		Guest guest = guestRepository.getOne(guestId);

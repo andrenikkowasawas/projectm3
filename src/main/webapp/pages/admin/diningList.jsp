@@ -12,7 +12,8 @@ td {
 	<jsp:attribute name="content">
 	<!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" style="min-height: 925.8px;">
-	<a href="/admin/diningList/archives">ARCHIVE</a>
+		<a href="/admin/diningList/archives">ARCHIVE</a>
+	
 	<section class="content">
 	
 	<br>

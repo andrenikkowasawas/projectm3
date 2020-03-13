@@ -66,4 +66,3 @@ public class InRoomDiningCategory {
 		return "InRoomDiningCategory [id=" + id + ", menuCategory=" + menuCategory + "]";
 	}
 }
-

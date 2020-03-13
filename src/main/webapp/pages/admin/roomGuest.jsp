@@ -16,22 +16,7 @@
 			</section>
 <!-- 		main content -->
 			<section class="content">
-			
-	<div style="margin-bottom: 10px;">
-		<c:choose>
-    <c:when test="${room.occupyingGuest==0}">
-		              <button type="button" style="margin-bottom: 10px;" class="btn btn-primary" data-toggle="modal" data-target="#guestModal">ADD GUEST</button>
-    </c:when>
-    <c:otherwise>
-
-		              <button type="button" style="margin-bottom: 10px; display:none;" class="btn btn-primary" data-toggle="modal" data-target="#guestModal">ADD GUEST</button>
-    				  <a class="btn btn-success" href="http://localhost:8081/admin/room/${room.id}/guest/checkout">CHECKOUT</a>
-
-
-    </c:otherwise>
-</c:choose>
-		
-	</div>	
+	
 		
 		
           <div class="row">
@@ -42,6 +27,25 @@
 			<div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">ROOM #${room.id}</h3>
+              
+              <c:choose>
+    <c:when test="${room.occupyingGuest==0}">
+<div style="float:right;">
+		              <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#guestModal">ADD GUEST</button>
+  
+  </div>
+    </c:when>
+    <c:otherwise>
+<div style="float:right;">
+		              <button type="button" style="float:right; display:none;" class="btn btn-primary" data-toggle="modal" data-target="#guestModal">ADD GUEST</button>
+    				  <a class="btn btn-success" href="http://localhost:8081/admin/room/${room.id}/guest/checkout">CHECKOUT</a>
+</div>
+
+    </c:otherwise>
+</c:choose>
+              
+              
+              
             </div>
             <!-- /.box-header -->
             <!-- form start -->
