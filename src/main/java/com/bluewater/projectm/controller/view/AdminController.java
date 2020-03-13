@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.bluewater.projectm.entity.Admin;
 import com.bluewater.projectm.entity.Dining;
 import com.bluewater.projectm.entity.DiningReservation;
 import com.bluewater.projectm.entity.Events;
@@ -46,6 +51,8 @@ import com.bluewater.projectm.repository.ServicesRepository;
 import com.bluewater.projectm.repository.SpaReservationRepository;
 import com.bluewater.projectm.repository.ThemedDinerRepository;
 import com.bluewater.projectm.repository.ThemedDinerReservationRepository;
+import com.bluewater.projectm.repository.AdminRepository;
+import com.bluewater.projectm.service.AdminService;
 
 @Controller(value = "adminController")
 @RequestMapping(value = "/admin")
@@ -64,8 +71,6 @@ public class AdminController {
 	
 	@Autowired
 	private ThemedDinerRepository themedDinerRepository;
-	
-
 	
 	@Autowired
 	private InRoomDiningCategoryRepository inRoomDiningCategoryRepository;
@@ -96,14 +101,22 @@ public class AdminController {
 	@Autowired
 	private SpaReservationRepository spaReservationRepository;
 	
+	@Autowired
+	private AdminRepository adminRepository;
 	
+	@Autowired
+	private AdminService adminService;
 	
 	
 //ROOM/GUEST
 	@RequestMapping(method = RequestMethod.GET, value="/home")
-	public String adminHome(ModelMap map,Room room) {
+	public String adminHome(ModelMap map,Room room, HttpSession session) {
 		map.addAttribute("dashboardList",roomRepository.findByNotDeleted());
-
+		
+	String username = (String) session.getAttribute("userSession");
+	if(username == null)
+		return ("redirect:/admin/login");
+	
 		return "admin/home";
 	}
 	
@@ -119,7 +132,12 @@ public class AdminController {
 	
 	//shows guest details of each room
 	@RequestMapping(method = RequestMethod.GET, value="/room/{roomId}")
-	public String roomGuest (@PathVariable (name="roomId") int roomId, ModelMap map,  DiningReservation dr, Dining dining ) {
+	public String roomGuest (@PathVariable (name="roomId") int roomId, ModelMap map,  DiningReservation dr, Dining dining, HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		
 		Room room =roomRepository.getOne(roomId);
 		Guest guest=guestRepository.getOne(room.getOccupyingGuest());
 		map.addAttribute("room", room);
@@ -826,8 +844,28 @@ public class AdminController {
 		return"admin/spaTherapies";
 	}
 	
+	//Login Code/////////////////////////////////////////////////////////
+		@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
+		public ModelAndView LoginAsAdmin(@RequestParam("username") String username,@RequestParam("password") String password,HttpServletRequest request) {
+			
+			Admin admin = adminRepository.findByUsername(username);
+			if(admin == null) {
+				return new ModelAndView("redirect:/admin/login");
+			} else if(adminService.checkCredentiails(username, password)) {
+				request.getSession().setAttribute("userSession", admin.getUsername());
+				
+				return new ModelAndView("redirect:/admin/home");
+			}else {
+			
+			return new ModelAndView("redirect:/admin/login");
+		}
+		}
+		
+		@RequestMapping(method = RequestMethod.GET, value="/login")
+		public String Login(ModelMap map,Room room, HttpSession session) {
 	
-	
+			return "admin/login";
+		}
 	
 }
 	
