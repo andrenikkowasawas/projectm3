@@ -344,7 +344,7 @@ public class AdminController {
 		@RequestMapping(method = RequestMethod.GET, value="/archive/reservations/themedDiner")
 		public String themedDiningReservationsArchive (ModelMap map, ThemedDiner themedDiner,ThemedDinerReservation themedDinerRservation,  Guest guest) {
 				map.addAttribute("tdReservations", themedDinerReservationRepository.findByDeleted());
-				return"admin/themedDinerReservations";
+				return"admin/themedDinerReservationArchive";
 			}
 	
 	
@@ -416,9 +416,10 @@ public class AdminController {
 	//delete themed dinner reservation
 	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/delete/{themedDinerReservationId}")
 	public String deleteThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
-		themedDinerReservationRepository.deleteById(themedDinerReservationId);
-		
-		map.addAttribute("tdReservations", themedDinerReservationRepository.getAllThemedDinerReservation() );
+		ThemedDinerReservation themedDinerReservation=themedDinerReservationRepository.findById(themedDinerReservationId);
+		themedDinerReservation.setDeleted();
+		themedDinerReservationRepository.save(themedDinerReservation);
+		map.addAttribute("tdReservations", themedDinerReservationRepository.findByNotDeleted());
 		return "redirect:/admin/themedDinerReservations";
 	}
 	

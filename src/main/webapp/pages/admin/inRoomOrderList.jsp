@@ -14,10 +14,12 @@ td {
   <div class="content-wrapper" style="min-height: 925.8px;">
 	
 	<section class="content">
-<div class="box">
+<div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">ORDER LIST</h3>
-              <a href="http://localhost:8081/admin/in-room-dining-category-list/orderarchives">Archive</a>
+            <div>
+              <h3 class="box-title">ORDER LIST - PREPARING...</h3>
+              <a class="btn btn-success" href="http://localhost:8081/admin/in-room-dining-category-list/orderarchives" style="float:right;">REVIEW PREPARED ORDERS</a>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -42,8 +44,7 @@ td {
 					<td>${ol.totalAmount}</td>
 					<td>${ol.status}</td>
 					<td>
-				<a href="http://localhost:8081/admin/inRoomMenu/Order/update/${ol.id}">Done</a>|<a
-							href="http://localhost:8081/admin/inRoomMenu/Order/delete/${ol.id}">Close</a>
+				<a href="http://localhost:8081/admin/inRoomMenu/Order/update/${ol.id}">Done</a>
 			</td>	
 				</tr>
 		</c:forEach>
