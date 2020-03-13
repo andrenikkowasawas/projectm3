@@ -17,8 +17,7 @@ public interface DiningReservationRepository extends JpaRepository<DiningReserva
 	
 	public DiningReservation findById(int id);
 	
-	@Query( value = "SELECT * FROM `dining_reservation` WHERE  DATE(dining_reservation_date)  = CURDATE() - 1 ", nativeQuery = true)
-    Iterable<DiningReservation> getAllCurrentDiningReservation();
+	
 	 
 	@Query( value = "SELECT * FROM `dining_reservation` ORDER BY dining_reservation_date ASC LIMIT 25", nativeQuery = true)
     Iterable<DiningReservation> getAllDiningReservation(); 

@@ -22,7 +22,6 @@ import com.bluewater.projectm.entity.DiningReservation;
 import com.bluewater.projectm.entity.Events;
 import com.bluewater.projectm.entity.Feedback;
 import com.bluewater.projectm.entity.Guest;
-import com.bluewater.projectm.entity.InRoomDiningCategory;
 import com.bluewater.projectm.entity.InRoomDiningMenu;
 import com.bluewater.projectm.entity.InRoomOrder;
 import com.bluewater.projectm.entity.ResortServices;
@@ -36,7 +35,6 @@ import com.bluewater.projectm.repository.DiningReservationRepository;
 import com.bluewater.projectm.repository.EventsRepository;
 import com.bluewater.projectm.repository.FeedbackRepository;
 import com.bluewater.projectm.repository.GuestRepository;
-import com.bluewater.projectm.repository.InRoomDiningCategoryRepository;
 import com.bluewater.projectm.repository.InRoomDiningMenuRepository;
 import com.bluewater.projectm.repository.InRoomOrderRepository;
 import com.bluewater.projectm.repository.ReservationRepository;
@@ -67,8 +65,7 @@ public class AdminController {
 	
 
 	
-	@Autowired
-	private InRoomDiningCategoryRepository inRoomDiningCategoryRepository;
+	
 	
 	@Autowired
 	private InRoomDiningMenuRepository inRoomDiningMenuRepository;
@@ -136,11 +133,24 @@ public class AdminController {
 	public String checkoutGuest(@PathVariable(name="roomId")int id, ModelMap map) {
 		
 		Room room=roomRepository.getOne(id);
+		Guest guest=guestRepository.findById(room.getOccupyingGuest());
+		guest.setDeleted();
+		guestRepository.save(guest);
 		room.setOccupyingGuest(0);
 		roomRepository.save(room);
 		map.addAttribute("dashboardList",roomRepository.findByNotDeleted());
 		
 		return "redirect:/admin/home";
+	}
+	
+	
+	//guest archive
+	@RequestMapping(method=RequestMethod.GET, value="archives/guest")
+	public String guestArchive(ModelMap map) {
+		
+		map.addAttribute("guestarchive", guestRepository.findByDeleted());
+		
+		return "admin/archieveGuest";
 	}
 	
 	
@@ -294,9 +304,11 @@ public class AdminController {
 	//delete dining reservation
 	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/delete/{diningReservationId}")
 	public String deleteDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
-		diningReservationRepository.deleteById(diningReservationId);
+		DiningReservation diningReservation=diningReservationRepository.findById(diningReservationId);
+		diningReservation.setDeleted();
+		diningReservationRepository.save(diningReservation);
 		
-		map.addAttribute("diningReservations", diningReservationRepository.getAllDiningReservation());
+		map.addAttribute("diningReservations", diningReservationRepository.findByNotDeleted());
 		return "redirect:/admin/allDiningReservations";
 	}
 	
@@ -322,12 +334,18 @@ public class AdminController {
 		}
 	
 	//archive dining reservations
-	@RequestMapping(method = RequestMethod.GET, value="/allDiningReservations/archive")
+	@RequestMapping(method = RequestMethod.GET, value="/archive/reservations/dining")
 	public String alldiningreservationsarchive(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest) {
 			map.addAttribute("diningReservations", diningReservationRepository.findByDeleted());
-			map.addAttribute("tdReservations", themedDinerReservationRepository.findByDeleted());
 			return"admin/allDiningReservations_archive";
 		}
+	
+	//archive themed dinner reservations
+		@RequestMapping(method = RequestMethod.GET, value="/archive/reservations/themedDiner")
+		public String themedDiningReservationsArchive (ModelMap map, ThemedDiner themedDiner,ThemedDinerReservation themedDinerRservation,  Guest guest) {
+				map.addAttribute("tdReservations", themedDinerReservationRepository.findByDeleted());
+				return"admin/themedDinerReservations";
+			}
 	
 	
 //THEMED-DINER	
@@ -342,18 +360,7 @@ public class AdminController {
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
 		return "admin/diningList";
 	}
-	
-	@RequestMapping(method=RequestMethod.GET, value="/themedDinerRecover/{id}")
-	public String themedDinerRemove(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
-		
-		themedDiner = themedDinerRepository.findById(id);
-		themedDiner.recover();
-		
-		themedDinerRepository.saveAndFlush(themedDiner);
-		map.addAttribute("diningList", diningRepository.findByDeleted());
-		map.addAttribute("tdList", themedDinerRepository.findByDeleted());
-		return "admin/diningList_achives";
-	}
+
 	
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerUpdate/{id}")
 	public String themedDinerUpdateForm(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
@@ -424,7 +431,7 @@ public class AdminController {
 		ThemedDinerReservation temp = themedDinerReservationRepository.getOne(themedDinerReservationId);
 		temp.setStatus("Seated");
 		themedDinerReservationRepository.saveAndFlush(temp);
-		map.addAttribute("tdReservations", themedDinerReservationRepository.getAllCurrentThemedDinerReservation());
+		map.addAttribute("tdReservations", themedDinerReservationRepository.getAllThemedDinerReservation() );
 		
 		return "redirect:/admin/themedDinerReservations";
 	}
@@ -439,13 +446,11 @@ public class AdminController {
 	
 	
 	
-	@RequestMapping(method = RequestMethod.POST, value="/in-room-dining-category-list/{id}/in-room-dining-menu/view")
-	public String saveInRoomDiningCategory(@PathVariable(name="id") int inRoomDiningCategoryId,  InRoomDiningCategory inRoomDiningCategory,
-			InRoomDiningMenu inRoomDiningMenu, ModelMap map, @RequestParam String menuName, @RequestParam int menuPrice,
+	@RequestMapping(method = RequestMethod.POST, value="/inRoomMenu/save")
+	public String saveInRoomMenu( InRoomDiningMenu inRoomDiningMenu, ModelMap map, @RequestParam String menuName, @RequestParam int menuPrice,
 			@RequestParam String menuDescription, @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
 		
 		
-		InRoomDiningCategory cat = inRoomDiningCategoryRepository.findById(inRoomDiningCategoryId);
 		inRoomDiningMenu.setImgFilePath(imgFile.getOriginalFilename());
 		
 		
@@ -454,17 +459,13 @@ public class AdminController {
 		inRoomDiningMenuToBeAdd.setMenuName(menuName);
 		inRoomDiningMenuToBeAdd.setMenuPrice(menuPrice);
 		inRoomDiningMenuToBeAdd.setMenuDescription(menuDescription);
-		inRoomDiningMenuToBeAdd.setInRoomDiningCategory(cat);
 		
 		inRoomDiningMenuRepository.save(inRoomDiningMenuToBeAdd);
-		map.put("menuName", menuName);
-		map.put("menuPrice", menuPrice);
-		map.put("menuDescription", menuDescription);
-		map.put("imgFile", imgFile.getOriginalFilename());
-		
+	
 		File file = new File(uploadingDir + imgFile.getOriginalFilename());
 		 imgFile.transferTo(file);
-		return "admin/inroomdiningmenuview";
+		 map.addAttribute("menuList", inRoomDiningMenuRepository.findByNotDeleted());
+		return "admin/inroomdiningcategorylist";
 	}
 
 	
@@ -476,71 +477,41 @@ public class AdminController {
 		return"admin/addInRoomDiningCategory";
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="/in-room-dining-category-list/remove/{id}")
-	public String inRoomDiningCategoryRemove(ModelMap map, @PathVariable(name="id") int id) {
-		
-		InRoomDiningCategory inRoomDiningCategory=inRoomDiningCategoryRepository.findById(id);
-		inRoomDiningCategory.setDeleted();
-		inRoomDiningCategoryRepository.saveAndFlush(inRoomDiningCategory);
-
-
-		
-		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findByNotDeleted());
-		
-		return "admin/inroomdiningcategorylist";
-	}
-	
-	@RequestMapping(method=RequestMethod.GET, value="/in-room-dining-category-list/recover/{id}")
-	public String inRoomDiningCategoryRecover(ModelMap map, @PathVariable(name="id") int id) {
-		
-		InRoomDiningCategory inRoomDiningCategory=inRoomDiningCategoryRepository.findById(id);
-		inRoomDiningCategory.recover();
-		inRoomDiningCategoryRepository.saveAndFlush(inRoomDiningCategory);
-
-
-		
-		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findByDeleted());
-		
-		return "admin/inroomdiningcategoryarchive";
-	}
-	
-	
-	
-	@RequestMapping(method = RequestMethod.POST, value="/in-room-dining-category/view")
-	public String saveInRoomDiningCategory(ModelMap map, InRoomDiningCategory inRoomDiningCategory,
-			@RequestParam String menuCategory) {
-		
-		inRoomDiningCategoryRepository.saveAndFlush(inRoomDiningCategory);
-		map.put("menuCategory", menuCategory);
-	
-		return "redirect:/admin/in-room-dining-category-list";
-	}
-	
-
-	
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category-list")
-	public String showInRoomDiningCategoryList( InRoomDiningCategory inRoomDiningCategory,ModelMap map ) {
+	public String showMenuList(ModelMap map, InRoomDiningMenu inRoomDiningMenu) {
+		map.addAttribute("menuList", inRoomDiningMenuRepository.findByNotDeleted());
 		
-		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findByNotDeleted());
+		return"admin/inroomdiningcategorylist";
+	}
+
+
+	
+	@RequestMapping(method=RequestMethod.GET, value="/in-room-dining-category-list/menu/remove/{id}")
+	public String inRoomDiningMenuRemove(ModelMap map, @PathVariable(name="id") int id) {
+		
+		InRoomDiningMenu inRoomDiningMenu=inRoomDiningMenuRepository.findById(id);
+		inRoomDiningMenu.setDeleted();
+		inRoomDiningMenuRepository.saveAndFlush(inRoomDiningMenu);
+
+
+		
+		map.addAttribute("menuList", inRoomDiningMenuRepository.findByNotDeleted());
 		
 		return "admin/inroomdiningcategorylist";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category-archive")
-	public String showInRoomDiningCategoryArchvie( InRoomDiningCategory inRoomDiningCategory,ModelMap map ) {
-		
-		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findByDeleted());
-		
-		return "admin/inroomdiningcategoryarchive";
-	}
 	
-	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category-list/{inRoomDiningCategoryId}")
-	public String showAddInRoomDiningMenuForm(@PathVariable(name="inRoomDiningCategoryId") int inRoomDiningCategoryId,  InRoomDiningCategory inRoomDiningCategory,
-			 ModelMap map) {
-		inRoomDiningCategoryRepository.findById(inRoomDiningCategoryId);
+	
+	
 
+	
+	
+	
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value="/inRoomMenu")
+	public String showAddInRoomDiningMenuForm( ModelMap map) {
 		
-
 	return "admin/addInRoomDiningMenu";
 	}
 	

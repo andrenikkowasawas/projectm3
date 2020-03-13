@@ -14,29 +14,46 @@ td {
   <div class="content-wrapper" style="min-height: 925.8px;">
 	
 	<section class="content">
-<div class="box">
+
+ 
+ 
+ <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Category</h3>
-              	<a href="http://localhost:8081/admin/in-room-dining-category-archive">Archive</a>
-   	   								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inroomcatModal" style="float:right;">ADD CATEGORY</button>
+              <h3 class="box-title">IN-ROOM-MENU ITEMS</h3>
+   	   								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inroomcatModal" style="float:right;">ADD MENU</button>
    
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table class="table table-striped table-hover">
                 <tbody>
+                <tr><th>MENU</th>
+                <th>PRICE</th>
+                <th>IMAGE</th>
+                <th>ACTION</th>
                 
-		<c:forEach items="${inRoomDiningCategoryList}" var="category">
+                </tr>
+                
+		<c:forEach items="${menuList}" var="menu">
 		<tr>		  	
 			
-			<td><a href="http://localhost:8081/admin/in-room-dining-category-list/${category.id }">${category.menuCategory}</a></td>
-			<td><a href="http://localhost:8081/admin/in-room-dining-category-list/remove/${category.id}">Delete</a></td>
+			<td>${menu.menuName}</td>
+			<td>${menu.menuPrice}</td>
+			<td><img style="width:40px; height:25px;" src="${pageContext.request.contextPath}/uploads/${menu.imgFilePath}"/></td>
+						<td><a href="http://localhost:8081/admin/in-room-dining-category-list/menu/remove/${menu.id}"><i class="material-icons">delete</i></a></td>
+			
 		</tr>
 		</c:forEach>
   </tbody>
   </table>
  </div>
  </div>
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  	 <div class="modal fade" id="inroomcatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
@@ -48,14 +65,40 @@ td {
 						<h4 class="modal-title">ADD CATEGORY</h4>
 					</div>
 					<div class="modal-body">
-						<form action="http://localhost:8081/admin/in-room-dining-category/view" method="post" >
 						
-							<div class="form-group">
-							
-								<label for="roomNo">Category</label>
-<!-- 								<input type="text" name = "roomNo"> -->
-								<input class="form-control" type="text" id ="menuCategory"  name = "menuCategory">
-							</div>
+						
+						<form action="http://localhost:8081/admin/inRoomMenu/save" method="post" enctype="multipart/form-data">
+			  <div class="form-group">
+
+									<label>MENU NAME</label>
+									</div>
+												  <div class="form-group">
+									
+									<input type="text" name="menuName">
+									</div>
+								
+												  <div class="form-group">
+
+									<label>PRICE</label>
+									</div>
+												  <div class="form-group">
+									
+										<input type="text" name="menuPrice">									
+								</div>
+								<div class="form-group">
+
+									<label>DESCRIPTION</label>
+									</div>
+												  <div class="form-group">
+									
+<textarea name="menuDescription" style="width:100%;">	</textarea>							</div>
+									<div class="form-group">
+									<label>IMAGE</label>
+									</div>
+												  <div class="form-group">
+									<input type="file" name="imgFile" >
+					</div>
+								
 							<div class="modal-footer">
 								<button type="button" class="btn btn-primary pull-left" data-dismiss="modal">CLOSE</button>
 								<button type="submit" class="btn btn-primary" >SAVE</button>
