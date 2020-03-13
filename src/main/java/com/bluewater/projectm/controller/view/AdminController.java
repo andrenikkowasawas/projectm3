@@ -136,11 +136,22 @@ public class AdminController {
 	public String checkoutGuest(@PathVariable(name="roomId")int id, ModelMap map) {
 		
 		Room room=roomRepository.getOne(id);
+		Guest guest=guestRepository.findById(room.getOccupyingGuest());
+		guest.setDeleted();
+		guestRepository.save(guest);
 		room.setOccupyingGuest(0);
 		roomRepository.save(room);
 		map.addAttribute("dashboardList",roomRepository.findByNotDeleted());
 		
 		return "redirect:/admin/home";
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="guest/archvies")
+	public String guestArchive(ModelMap map) {
+		
+		map.addAttribute("guestarchive", guestRepository.findByDeleted());
+		
+		return "admin/guestarchive";
 	}
 	
 	
