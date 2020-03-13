@@ -15,10 +15,6 @@ public interface ThemedDinerReservationRepository  extends JpaRepository<ThemedD
 
 	public ThemedDinerReservation findById(int id);
 	
-	@Query( value = "SELECT * FROM `themed_diner_reservation` WHERE  DATE(themed_diner_reservation_date) = CURDATE() - 1", nativeQuery = true)
-    Iterable<ThemedDinerReservation> getAllCurrentThemedDinerReservation();
-	
-	 
 	@Query( value = "SELECT * FROM `themed_diner_reservation` ORDER BY themed_diner_reservation_date", nativeQuery = true)
     Iterable<ThemedDinerReservation> getAllThemedDinerReservation(); 
 	

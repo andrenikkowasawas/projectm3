@@ -27,16 +27,7 @@ public class InRoomDiningMenu {
 	@org.hibernate.annotations.Type( type= "text")
 	private String menuDescription;
 	
-	 @ManyToOne
-	  @JoinColumn(name="menuCategoryId", referencedColumnName = "id", nullable=false)
-	  private InRoomDiningCategory inRoomDiningCategory;
-	
-	public InRoomDiningCategory getInRoomDiningCategory() {
-		return inRoomDiningCategory;
-	}
-	public void setInRoomDiningCategory(InRoomDiningCategory inRoomDiningCategory) {
-		this.inRoomDiningCategory = inRoomDiningCategory;
-	}
+
 	public int getId() {
 		return id;
 	}

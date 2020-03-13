@@ -35,7 +35,8 @@
     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
   </ol>
   
-  <div class="carousel-inner">
+  <div class="carousel-inner" style="margin:auto; width:100%; border: 1px solid red;">
+  <div class="d-flex justify-content-between">
   
     <div class="carousel-item active">
     <div class="row">
@@ -64,10 +65,10 @@
     
     
     
-    <div class="carousel-item ">
+    <div class="carousel-item " >
     <div class="row">
     <div class="col">  <a href="http://localhost:8081/guest/${guestId}/adventures"><img class="menu-img" src="${pageContext.request.contextPath}/image/adv.jpg" alt="First slide"></a>
-    <div class="carousel-caption">
+    <div class="carousel-caption" style="border: 1px solid red;">
     <a class="display-5 text-decoration-none" href="http://localhost:8081/guest/${guestId}/adventures">ADVENTURES</a>
 </div>
 </div> 
@@ -95,11 +96,11 @@
   
    
     
-    
+    </div>
+    </div>
   </div>
   
   
-  </div>
   
   
   

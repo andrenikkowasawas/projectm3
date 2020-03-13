@@ -205,7 +205,18 @@
         </li>
 <!-- EVENT END -->
 <!--  -->
-<!--  -->
+<!--  --><li class="treeview">
+          <a href="#">
+            <i class="fa fa-archive"></i>
+            <span>ARCHIVE</span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/admin/archives/guest"><i class="fa fa-circle-o"></i>GUESTS</a></li>
+           <li><a href="/admin/archive/reservations/dining"><i class="fa fa-circle-o"></i>RESTAURANT RESERVATIONS</a></li>
+            <li><a href="/admin/archive/reservations/themedDiner"><i class="fa fa-circle-o"></i>THEMED-DINNER RESERVATIONS</a></li>
+            
+          </ul>
+        </li>
 
       </ul>
     </section>
