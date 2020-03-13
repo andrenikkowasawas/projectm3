@@ -60,7 +60,7 @@ public class DiningController {
 	
 	
 	
-	
+	//show restaurant reservation form
 	@RequestMapping(method = RequestMethod.GET, value = "/diningList/{diningId}/{guestId}")
 	public String showDiningReservationForm(@PathVariable(name = "diningId") int diningId, @PathVariable(name = "guestId") int guestId, ModelMap map) {
 
@@ -78,7 +78,7 @@ public class DiningController {
 
 	
 
-
+//save restaurant reservation
 	@RequestMapping(method = RequestMethod.POST, value = "/dining/reservation/{diningId}/{guestId}")
 	public String addDiningReservation(@PathVariable(name = "diningId") int diningId, @PathVariable(name = "guestId") int guestId,ModelMap map, DiningReservation dr) {
 		Dining dining = diningRepository.getOne(diningId);
@@ -95,7 +95,8 @@ public class DiningController {
 	
 
 	
-	//THEMEDDINERRESERVATION
+//THEMEDDINERRESERVATION
+	//show themed dinner reservation form
 	@RequestMapping(method = RequestMethod.GET, value = "/themedDiners/{themedDinerId}/{guestId}")
 	public String showThemedDinerReservationForm(@PathVariable(name = "themedDinerId") int themedDinerId, @PathVariable(name = "guestId") int guestId, ModelMap map) {
 
@@ -107,6 +108,7 @@ public class DiningController {
 	}
 	
 	
+	//save themed dinner reservation
 	@RequestMapping(method = RequestMethod.POST, value = "/themed-diner/reservation/{themedDinerId}/{guestId}")
 	public String addThemedDinerReservation(@PathVariable(name = "themedDinerId") int themedDinerId, @PathVariable(name = "guestId") int guestId,ModelMap map, ThemedDinerReservation tdr ) {
 		ThemedDiner themedDiner = themedDinerRepository.getOne(themedDinerId);
@@ -121,7 +123,8 @@ public class DiningController {
 		return "guest/themedDiner/themedDinerReservationView";
 	}
 	
-	//IN-ROOM ORDER
+//IN-ROOM ORDER
+	//shows in room order form
 	@RequestMapping(method = RequestMethod.POST, value="/inRoomMenu/{id}/{menuName}/{guestId}")
 	public String orderInRoomForm(@PathVariable(name="guestId") int guestId,@PathVariable(name="id") int menuId,@PathVariable(name="menuName") String menuName,@RequestParam int Orders, ModelMap map,InRoomOrder iro ) {
 		Guest guest = guestRepository.getOne(guestId);
@@ -136,6 +139,7 @@ public class DiningController {
 		return "guest/inroommenu/inRoomOrderForm";
 	}
 	
+	//save in room order
 	@RequestMapping(method= RequestMethod.POST, value="/inRoomMenu/Order/{menuId}/{Orders}/{guestId}/{totalPrice}")
 	public String inRoomOrder(@PathVariable(name = "guestId") int guestId,@PathVariable(name="menuId") int menuId,@PathVariable(name="Orders") int Orders,@PathVariable(name="totalPrice") int totalPrice, ModelMap map,InRoomOrder iro) {
 		Guest guest=guestRepository.getOne(guestId);

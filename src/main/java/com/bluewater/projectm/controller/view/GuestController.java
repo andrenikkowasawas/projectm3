@@ -43,22 +43,22 @@ public class GuestController {
 	@Autowired
 	private ThemedDinerRepository themedDinerRepository;
 	
-	
-	
 	@Autowired
 	private ResortServicesRepository resortServicesRepository;
 	
 	@Autowired
 	private InRoomDiningMenuRepository inRoomDiningMenuRepository;
 	
-	
-	
 	@Autowired
 	private EventsRepository eventsRepository;
 	
 
+	
+	
+//ROOM
+	//	displays the welcome page 
 	@RequestMapping(method = RequestMethod.GET, value="/roomid/{id}")
-	public String getRoom101(@PathVariable(name="id") int roomId,ModelMap map) {
+	public String welcomeGuest(@PathVariable(name="id") int roomId,ModelMap map) {
 		Room room = roomRepository.findById(roomId);
 		Guest guest = guestRepository.getOne(room.occupyingGuest);
 		map.addAttribute("guest", guest.getGuestFirstname());
@@ -68,7 +68,7 @@ public class GuestController {
 		
 	}
 	
-
+	//goes to menu page
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/menu")
 	public String goToMenu(@PathVariable(name = "id") int guestId, ModelMap map) {
 		Guest guest = guestRepository.getOne(guestId);
@@ -80,10 +80,9 @@ public class GuestController {
 	}
 	
 	
-
 	
-	
-	
+//INROOM-MENU
+	//display lists of in room menu
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-menu-list/{id}")
 	public String inRoomMenuList(@PathVariable(name = "id") int guestId,ModelMap map, Dining dining, ThemedDiner themedDiner) {
 		
@@ -94,29 +93,30 @@ public class GuestController {
 	}
 	
 	
-	
+	//display dining dashbaord
 	@RequestMapping(method = RequestMethod.GET, value="/diningList/{id}/dining-dashboard")
 	public String diningDashboard(@PathVariable(name = "id") int guestId,ModelMap map, Dining dining, ThemedDiner themedDiner) {
 		
 		Guest guest = guestRepository.getOne(guestId);
 		map.addAttribute("guestId", guest.getId());
 		map.addAttribute("diningList", diningRepository.findByNotDeleted() );
-			map.addAttribute("themedDinerList", themedDinerRepository.findByNotDeleted() );
-	map.addAttribute("inroomdiningmenulist", inRoomDiningMenuRepository.findAll() );
+		map.addAttribute("themedDinerList", themedDinerRepository.findByNotDeleted() );
+        map.addAttribute("inroomdiningmenulist", inRoomDiningMenuRepository.findAll() );
 
 		
 		return "guest/dining/dining-dashboard";
 	}
 	
-
+	//display relax menu
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/relax-menu")
-public String relaxMenu(@PathVariable(name = "id") int guestId,ModelMap map) {
+	public String relaxMenu(@PathVariable(name = "id") int guestId,ModelMap map) {
 		Guest guest = guestRepository.getOne(guestId);
 		map.addAttribute("guestId", guest.getId());
 		return"guest/amumaspa/relax-menu";
 	}
 	
 	//RESORT SERVICES
+	//display lists of resort services
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/resort-services")
 	public String showResortServices(@PathVariable(name = "id") int guestId,ModelMap model, ResortServices resortServices) {
 		Guest guest = guestRepository.getOne(guestId);
@@ -126,6 +126,7 @@ public String relaxMenu(@PathVariable(name = "id") int guestId,ModelMap map) {
 	}
 	
 	//EVENTS
+	//display lists of events
 	@RequestMapping(method = RequestMethod.GET, value="/{id}/events")
 	public String events(@PathVariable(name = "id") int guestId,ModelMap map) {
 			Guest guest = guestRepository.getOne(guestId);

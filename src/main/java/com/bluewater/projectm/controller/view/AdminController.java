@@ -99,7 +99,7 @@ public class AdminController {
 	
 	
 	
-
+//ROOM/GUEST
 	@RequestMapping(method = RequestMethod.GET, value="/home")
 	public String adminHome(ModelMap map,Room room) {
 		map.addAttribute("dashboardList",roomRepository.findByNotDeleted());
@@ -107,6 +107,7 @@ public class AdminController {
 		return "admin/home";
 	}
 	
+	//add room
 	@RequestMapping(method = RequestMethod.POST, value="/roomInfo")
 	public String saveRoom(ModelMap map, Room room, @RequestParam String roomNo) {
 		roomRepository.saveAndFlush(room);
@@ -114,6 +115,9 @@ public class AdminController {
 		return "redirect:/admin/home";
 	}
 	
+	
+	
+	//shows guest details of each room
 	@RequestMapping(method = RequestMethod.GET, value="/room/{roomId}")
 	public String roomGuest (@PathVariable (name="roomId") int roomId, ModelMap map,  DiningReservation dr, Dining dining ) {
 		Room room =roomRepository.getOne(roomId);
@@ -121,41 +125,33 @@ public class AdminController {
 		map.addAttribute("room", room);
 		map.addAttribute("guest", guest);	
 		
-		
 		return"admin/roomGuest";
 	}
 	
 	
 	
 	
-	
+	//checks out guest
 	@RequestMapping(method=RequestMethod.GET, value="/room/{roomId}/guest/checkout")
 	public String checkoutGuest(@PathVariable(name="roomId")int id, ModelMap map) {
 		
 		Room room=roomRepository.getOne(id);
-		
 		room.setOccupyingGuest(0);
 		roomRepository.save(room);
-		
 		map.addAttribute("dashboardList",roomRepository.findByNotDeleted());
 		
 		return "redirect:/admin/home";
 	}
 	
 	
-	
-	
-
-	
-	
+	//add guest
 	@RequestMapping(method = RequestMethod.POST, value="/room/{room.id}/guest/view")
 	public String saveGuest(@PathVariable (name="room.id") int id,ModelMap map, Room room, Guest guest, @RequestParam String guestFirstname, @RequestParam 
 			String guestLastname, @RequestParam String guestAge, @RequestParam String guestGender, 
 			@RequestParam String guestNationality, @RequestParam String guestPhoneNum, 
 			@RequestParam String guestEmailAddress) {
 		
-		map.addAttribute("room", roomRepository.findByNotDeleted());
-		
+		map.addAttribute("room", roomRepository.findByNotDeleted());	
 		Guest guestToOccupy= guestRepository.saveAndFlush(guest);
 		Room roomToOccupy=roomRepository.getOne(id);
 		roomToOccupy.setOccupyingGuest(guestToOccupy.getId());
@@ -166,6 +162,7 @@ public class AdminController {
 	}
 	
 	
+//DASHBOARD	
 	@RequestMapping(method = RequestMethod.GET, value="/dashboard")
 	public String showDashboard(ModelMap map,Room room, Guest guest, Feedback feedback) {
 		map.addAttribute("guest",guestRepository.findAll());
@@ -179,7 +176,6 @@ public class AdminController {
 		map.addAttribute("poor", feedBackRepository.countPoor());
 		map.addAttribute("verypoor", feedBackRepository.countVeryPoor());
 
-		
 		
 		//Nationality
 		map.addAttribute("filipino",guestRepository.countByGuestNationality("Filipino"));
@@ -205,22 +201,22 @@ public class AdminController {
 	
 	
 	
-	
+	//display lists of restaurants and themed dinners
 	@RequestMapping(method = RequestMethod.GET, value="/diningList")
-	public String showRoomLisy(ModelMap map, Dining dining, ThemedDiner themedDiner) {
+	public String diningList(ModelMap map, Dining dining, ThemedDiner themedDiner) {
 		
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
 		return "admin/diningList";
 	}
 	
+	
+	//add restaurant
 	@RequestMapping(method = RequestMethod.POST, value="/dininginfo")
 	public String saveDining(ModelMap map, Dining dining, @RequestParam String diningName,
 			@RequestParam String diningDescription, @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
 		
 		dining.setImgFilePath(imgFile.getOriginalFilename());
-	
-		
 		diningRepository.saveAndFlush(dining);
 		map.put("diningName", diningName);
 		map.put("diningDescription", diningDescription);
@@ -233,19 +229,20 @@ public class AdminController {
 	}
 	
 	
-	
+	//deletes restaurant
 	@RequestMapping(method=RequestMethod.GET, value="/dining/delete/{id}")
 	public String diningRemove(ModelMap map, @PathVariable(name="id") int id) {
 		
 		Dining dining=diningRepository.findById(id);
 		dining.setDeleted();
 		diningRepository.saveAndFlush(dining);
-
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
 		return "admin/diningList";
 	}
 	
+	
+	//display dining update form
 	@RequestMapping(method=RequestMethod.GET, value="/dining/update/{id}")
 	public String diningUpdateForm(ModelMap map, @PathVariable(name="id") int id) {
 		
@@ -253,62 +250,92 @@ public class AdminController {
 		return "admin/updateDining";
 	}
 	
+	
+	//updates restaurant
 	@RequestMapping(method=RequestMethod.POST, value="/dining/{id}/updated")
 	public String diningUpdate(ModelMap map, @PathVariable(name="id") int id, Dining dining) {
 		
 		
 		dining.setImgFilePath(diningRepository.findById(id).getImgFilePath());
 		dining.setId(id);
-		
 		diningRepository.saveAndFlush(dining);
-
-
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
+		
 		return "admin/diningList";
 	}
 	
+	//delete dining reservation
+	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/delete/{diningReservationId}")
+	public String deleteDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
+		drr.deleteById(diningReservationId);
+		
+		map.addAttribute("diningReservations", drr.getAllDiningReservation());
+		return "redirect:/admin/allDiningReservations";
+	}
+	
+	//update dining reservation
+	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/update/{diningReservationId}")
+	public String updateDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
+	
+		DiningReservation temp = drr.getOne(diningReservationId);
+		temp.setStatus("Seated");
+		drr.saveAndFlush(temp);
+		map.addAttribute("diningReservations", drr.getAllDiningReservation());
+		
+		return "redirect:/admin/allDiningReservations";
+	}
 	
 	
-	//THEMED-DINER
+	//display lists of reservations
+	@RequestMapping(method = RequestMethod.GET, value="/allDiningReservations")
+	public String diningReservationsList(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest) {
+			map.addAttribute("diningReservations", drr.getAllDiningReservation());
+			return"admin/allDiningReservations";
+		}
 	
+	
+//THEMED-DINER	
+	//deletes themed dinner
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerRemove/{id}")
 	public String themedDinerRemove(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
 		
 		themedDiner = themedDinerRepository.findById(id);
 		themedDiner.setDeleted();
-		
 		themedDinerRepository.saveAndFlush(themedDiner);
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
+		
 		return "admin/diningList";
 	}
 	
+	
+	//shows themed dinner update form
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerUpdate/{id}")
 	public String themedDinerUpdateForm(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
-		
 		
 		map.addAttribute("themedDinerList", themedDinerRepository.findById(id));
 		return "admin/updateThemedDiner";
 	}
 	
+	
+	//updates themed dinner
 	@RequestMapping(method=RequestMethod.POST, value="/themedDiner/{id}/updated")
 	public String themedDinerUpdate(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
 		
-		
 		themedDiner.setImgFilePath(themedDinerRepository.findById(id).getImgFilePath());
 		themedDiner.setId(id);
-		
 		themedDinerRepository.saveAndFlush(themedDiner);
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
+		
 		return "admin/diningList";
 	}
 	
 	
-	
+	//displays lists of themed dinners
 	@RequestMapping(method = RequestMethod.GET, value="/themedDinerList")
-	public String showThemedDinerList( ThemedDiner themedDiner,ModelMap map ) {
+	public String themedDinerList( ThemedDiner themedDiner,ModelMap map ) {
 		
 		map.addAttribute("themedDinerList", themedDinerRepository.findByNotDeleted());
 		
@@ -316,11 +343,7 @@ public class AdminController {
 	}
 
 	
-	
-	
-
-	
-
+	// add themed dinner
 	@RequestMapping(method = RequestMethod.POST, value="/themedDiner/view")
 	public String saveThemedDiner(
 			ThemedDiner themedDiner, ModelMap map, @RequestParam String themedDinerName, @RequestParam String themedDinerAvailability,
@@ -328,7 +351,6 @@ public class AdminController {
 		
 		themedDiner.setImgFilePath(imgFile.getOriginalFilename());
 		themedDinerRepository.saveAndFlush(themedDiner);
-		
 		 File file = new File(uploadingDir + imgFile.getOriginalFilename());
 		 imgFile.transferTo(file);
 	
@@ -336,7 +358,40 @@ public class AdminController {
 	}
 	
 	
+	//delete themed dinner reservation
+	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/delete/{themedDinerReservationId}")
+	public String deleteThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
+		tdr.deleteById(themedDinerReservationId);
+		
+		map.addAttribute("tdReservations", tdr.getAllThemedDinerReservation() );
+		return "redirect:/admin/themedDinerReservations";
+	}
 	
+	
+	
+	//update themed dinner reservation
+	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/update/{themedDinerReservationId}")
+	public String updateThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
+	
+		ThemedDinerReservation temp = tdr.getOne(themedDinerReservationId);
+		temp.setStatus("Seated");
+		tdr.saveAndFlush(temp);
+		map.addAttribute("tdReservations", tdr.getAllCurrentThemedDinerReservation());
+		
+		return "redirect:/admin/themedDinerReservations";
+	}
+	
+	//display lists of themed dinner reservations
+	@RequestMapping(method=RequestMethod.GET, value="/themedDinerReservations")
+	public String themedDinerReservationList(ModelMap  map, ThemedDinerReservation themedDinerRservation, ThemedDiner themedDiner, Guest guest) {
+		map.addAttribute("tdReservations", tdr.getAllThemedDinerReservation() );
+		return"admin/themedDinerReservations";
+	}
+
+	
+	
+	
+//IN-ROOM-DINING	
 	@RequestMapping(method = RequestMethod.POST, value="/in-room-dining-category-list/{id}/in-room-dining-menu/view")
 	public String saveInRoomDiningCategory(@PathVariable(name="id") int inRoomDiningCategoryId,  InRoomDiningCategory inRoomDiningCategory,
 			InRoomDiningMenu inRoomDiningMenu, ModelMap map, @RequestParam String menuName, @RequestParam int menuPrice,
@@ -345,8 +400,6 @@ public class AdminController {
 		
 		InRoomDiningCategory cat = inRoomDiningCategoryRepository.findById(inRoomDiningCategoryId);
 		inRoomDiningMenu.setImgFilePath(imgFile.getOriginalFilename());
-		
-		
 		InRoomDiningMenu inRoomDiningMenuToBeAdd= new InRoomDiningMenu();
 		inRoomDiningMenuToBeAdd.setImgFilePath(imgFile.getOriginalFilename());
 		inRoomDiningMenuToBeAdd.setMenuName(menuName);
@@ -366,7 +419,6 @@ public class AdminController {
 	}
 
 	
-	//IN-ROOM-DINING
 	
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category/add")
 	public String showAddInRoomDiningCategoryForm() {
@@ -453,70 +505,26 @@ public class AdminController {
 	
 	
 	
-	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/delete/{diningReservationId}")
-	public String deleteDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
-		drr.deleteById(diningReservationId);
-		
-		map.addAttribute("diningReservations", drr.getAllDiningReservation());
-		return "redirect:/admin/allDiningReservations";
-	}
-	
-	
-	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/delete/{themedDinerReservationId}")
-	public String deleteThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
-		tdr.deleteById(themedDinerReservationId);
-		
-		map.addAttribute("tdReservations", tdr.getAllThemedDinerReservation() );
-		return "redirect:/admin/themedDinerReservations";
-	}
+
 	
 	
 	
 	
-	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/update/{themedDinerReservationId}")
-	public String updateThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
+
+//SPA	
 	
-		ThemedDinerReservation temp = tdr.getOne(themedDinerReservationId);
-		temp.setStatus("Seated");
-		tdr.saveAndFlush(temp);
-		map.addAttribute("tdReservations", tdr.getAllCurrentThemedDinerReservation());
-		
-	
-		return "redirect:/admin/themedDinerReservations";
-	}
-	
-	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/update/{diningReservationId}")
-	public String updateDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
-	
-		DiningReservation temp = drr.getOne(diningReservationId);
-		temp.setStatus("Seated");
-		drr.saveAndFlush(temp);
-		map.addAttribute("diningReservations", drr.getAllDiningReservation());
-		
-	
-		return "redirect:/admin/allDiningReservations";
-	}
-	
-	
+	//display lists of spa reservations
 	@RequestMapping(method=RequestMethod.GET, value="/spaReservations")
 	public String spaReservationList(ModelMap  map, SpaReservation spaReservation, Services services, Guest guest) {
 		map.addAttribute("spaReservations", srr.getAllSpaReservation());
 
-		
 		return"admin/spaReservations";
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="/themedDinerReservations")
-	public String themedDinerReservationList(ModelMap  map, ThemedDinerReservation themedDinerRservation, ThemedDiner themedDiner, Guest guest) {
-		map.addAttribute("tdReservations", tdr.getAllThemedDinerReservation() );
-
-		
-		return"admin/themedDinerReservations";
-	}
-
+	
 
 	
-	
+	//save spa reservation
 	@RequestMapping(method=RequestMethod.GET, value="/spa/service/reservation/update/{spaReservationId}")
 	public String updateSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, Services services, Guest guest, ModelMap map) {
 	
@@ -529,6 +537,8 @@ public class AdminController {
 		return "redirect:/admin/spaReservations";
 	}
 	
+	
+	//delete spa reservation
 	@RequestMapping(method=RequestMethod.GET, value="/spa/service/reservation/delete/{spaReservationId}")
 	public String deleteSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, ModelMap map) {
 		srr.deleteById(spaReservationId);
@@ -540,7 +550,7 @@ public class AdminController {
 	
 	//RESORT SERVICES
 	
-	
+	// delete resort service
 	@RequestMapping(method=RequestMethod.GET, value="/resortServiceList/remove/{id}")
 	public String deleteResortService(ModelMap map, @PathVariable(name="id") int id) {
 		
@@ -549,9 +559,11 @@ public class AdminController {
 		resortServicesRepository.saveAndFlush(resortService);
 		
 		map.addAttribute("resortServiceList", resortServicesRepository.findByNotDeleted());
-		return "admin/resortserviceslist";
+		return "admin/resortServicesList";
 	}
 	
+	
+	//show update resort service form
 	@RequestMapping(method=RequestMethod.GET, value="/resortServiceList/update/{id}")
 	public String updateResortServiceForm(ModelMap map, @PathVariable(name="id") int id) {
 		
@@ -559,36 +571,37 @@ public class AdminController {
 		map.addAttribute("resortService", resortServicesRepository.findById(id));
 		return "admin/updateResortServices";
 	}
+	
+	
+	//update resort service
 	@RequestMapping(method = RequestMethod.POST, value="/resort-services/update/{id}/view")
 	public String updateResortService(ModelMap map, ResortServices resortServices, @PathVariable(name="id") int id) {
 		
-		
-
 		resortServices.setId(id);
-		
-		
 		resortServicesRepository.saveAndFlush(resortServices);
 		
-		return "redirect:/admin/resortServicesList";
+		return "redirect:/admin/resortServices";
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value="/resort-services/view")
-	public String saveResortService(ModelMap map, ResortServices resortServices,
-			@RequestParam String resortServiceName, @RequestParam String resortServiceDescription,
-			@RequestParam String resortServiceContact) {
+	
+	//save resort service
+	@RequestMapping(method = RequestMethod.POST, value="/resortServicesInfo")
+	public String saveResortService(ModelMap map, ResortServices resortServices) {
 		resortServicesRepository.saveAndFlush(resortServices);
 		
-		return "redirect:/admin/resortServicesList";
+		return "redirect:/admin/resortServices";
 	}
+	
+	//display lists of resort services
 	@RequestMapping(method = RequestMethod.GET, value="/resortServices")
 	public String resortServicesList(ModelMap map, ResortServices resortServices) {
 		map.addAttribute("resortServiceList", resortServicesRepository.findByNotDeleted());
-		return "admin/resortserviceslist";
+		return "admin/resortServicesList";
 	}
 	
+	
 	//EVENTS
-	
-	
+	//delete event
 	@RequestMapping(method = RequestMethod.GET, value="/events/remove/{id}")
 	public String deleteEvent(ModelMap map,  @PathVariable(name="id") int id) {
 			
@@ -599,31 +612,39 @@ public class AdminController {
 		return "redirect:/admin/eventsList";
 		}
 	
-	
+	//save event photo
 	@RequestMapping(method = RequestMethod.POST, value="/eventInfo")
 	public String saveEvent(ModelMap map, Events events,  @RequestParam MultipartFile imgFile) {
 		
 		events.setImgFilePath(imgFile.getOriginalFilename());
 	
 		eventsRepository.saveAndFlush(events);
-		return "redirect:/admin/eventsList";
+		return "redirect:/admin/events";
 	}
 			
 
+	//display lists of events
 	@RequestMapping(method = RequestMethod.GET, value="/events")
 	public String eventsList(ModelMap map, Events events) {
 		map.addAttribute("eventsList", eventsRepository.findByNotDeleted());
-		return "admin/eventslist";
+		return "admin/eventsList";
 	}
-	//FEEDBACK
+	
+	
+//FEEDBACK
+	
+	//display lists of feedbacks
 	@RequestMapping(method = RequestMethod.GET, value="/feedbacks")
-	public String feedbackList(ModelMap map, Events events) {
+	public String feedbackList(ModelMap map) {
 		map.addAttribute("feedbacklist", feedBackRepository.findByNotDeleted());
 		
 		return "admin/feedbackList";
 	}
 	
+
 	
+//SERVICES - SPA THERAPY
+		//display lists of services
 	@RequestMapping(method = RequestMethod.GET, value="/spaTherapies")
 	public String servicesList (ModelMap map, Services services) {
 		map.addAttribute("therapiesList", servicesRepository.findByNotDeleted());
@@ -631,14 +652,13 @@ public class AdminController {
 		return"admin/spaTherapies";
 	}
 
+	//save service
 	@RequestMapping(method = RequestMethod.POST, value="/spaTherapy")
 	public String saveService(ModelMap map, Services services, @RequestParam String serviceName,@RequestParam String servicePrice,
 			@RequestParam String serviceDuration,
 			@RequestParam String serviceDescription, @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
 		
 		services.setImgFilePath(imgFile.getOriginalFilename());
-	
-		
 		servicesRepository.saveAndFlush(services);
 		map.put("serviceName", serviceName);
 		map.put("serviceDescription", serviceDescription);
@@ -653,7 +673,7 @@ public class AdminController {
 		return "redirect:/admin/spaTherapies";
 	}
 	
-	
+	//delete service
 	@RequestMapping(method=RequestMethod.GET, value="/spaTherapy/delete/{id}")
 	public String deleteService(ModelMap map, @PathVariable(name="id") int id) {
 		
@@ -665,6 +685,7 @@ public class AdminController {
 		return "redirect:/admin/spaTherapies";
 	}
 	
+	//show update service form
 	@RequestMapping(method=RequestMethod.GET, value="/spaTherapy/update/{id}")
 	public String updateServiceForm(ModelMap map, @PathVariable(name="id") int id) {
 		
@@ -673,6 +694,7 @@ public class AdminController {
 	}
 	
 	
+	//update service
 	@RequestMapping(method=RequestMethod.POST, value="/spaTherapy/{id}/updated")
 	public String updateService(ModelMap map, @PathVariable(name="id") int id, Services services) {
 		
@@ -680,10 +702,7 @@ public class AdminController {
 		//service.setImgFilePath(servicesRepository.findById(id).getImgFilePath());
 		Services service = servicesRepository.getOne(services.getId());
 		service.setId(id);
-		
 		servicesRepository.saveAndFlush(service);
-
-
 		map.addAttribute("therapiesList", servicesRepository.findByNotDeleted());
 
 		return "redirect:/admin/spaTherapies";
@@ -693,13 +712,6 @@ public class AdminController {
 	
 	
 	
-	
-	@RequestMapping(method = RequestMethod.GET, value="/allDiningReservations")
-	public String alldiningreservations(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest) {
-			map.addAttribute("diningReservations", drr.getAllDiningReservation());
-			map.addAttribute("tdReservations", tdr.getAllThemedDinerReservation());
-			return"admin/allDiningReservations";
-		}
 	
 }
 	

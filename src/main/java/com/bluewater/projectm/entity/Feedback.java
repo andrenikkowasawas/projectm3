@@ -51,7 +51,15 @@ public class Feedback {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+	@Basic
+	@Column(name = "deleted", nullable = true, length = 25)
+	private String deleted;
+	public String getDeleted() {
+		return deleted;
+	}
+	public void setDeleted() {
+		this.deleted = "deleted";
+	}
 	
 	@Override
 	public String toString() {
