@@ -165,14 +165,6 @@ public class AdminController {
 		return "redirect:/admin/home";
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="guest/archvies")
-	public String guestArchive(ModelMap map) {
-		
-		map.addAttribute("guestarchive", guestRepository.findByDeleted());
-		
-		return "admin/guestarchive";
-	}
-	
 	
 	//guest archive
 	@RequestMapping(method=RequestMethod.GET, value="archives/guest")
