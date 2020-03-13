@@ -116,6 +116,7 @@ public class AdminController {
 	String username = (String) session.getAttribute("userSession");
 	if(username == null)
 		return ("redirect:/admin/login");
+	map.addAttribute("username", username);
 	
 		return "admin/home";
 	}
@@ -137,6 +138,7 @@ public class AdminController {
 		String username = (String) session.getAttribute("userSession");
 		if(username == null)
 			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		Room room =roomRepository.getOne(roomId);
 		Guest guest=guestRepository.getOne(room.getOccupyingGuest());
@@ -193,7 +195,12 @@ public class AdminController {
 	
 //DASHBOARD	
 	@RequestMapping(method = RequestMethod.GET, value="/dashboard")
-	public String showDashboard(ModelMap map,Room room, Guest guest, Feedback feedback) {
+	public String showDashboard(ModelMap map,Room room, Guest guest, Feedback feedback, HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		
 		map.addAttribute("guest",guestRepository.findAll());
 		//guest Gender
 		map.addAttribute("maleGuest",guestRepository.countByGuestGender("Male"));
@@ -232,7 +239,12 @@ public class AdminController {
 	
 	//display lists of restaurants and themed dinners
 	@RequestMapping(method = RequestMethod.GET, value="/diningList")
-	public String diningList(ModelMap map, Dining dining, ThemedDiner themedDiner) {
+	public String diningList(ModelMap map, Dining dining, ThemedDiner themedDiner, HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
