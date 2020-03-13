@@ -29,4 +29,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 	
 	@Query(value = "SELECT * FROM `feedback` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<Feedback> findByNotDeleted();
+	
+	@Query(value = "SELECT * FROM `feedback` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<Feedback> findByDeleted();
 }

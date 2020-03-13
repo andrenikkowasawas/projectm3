@@ -15,4 +15,7 @@ public interface InRoomOrderRepository extends JpaRepository<InRoomOrder, Intege
 	
 	@Query(value = "SELECT * FROM `in_room_order` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<InRoomOrder> findByNotDeleted();
+
+	@Query(value = "SELECT * FROM `in_room_order` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<InRoomOrder> findByDeleted();
 }

@@ -51,6 +51,7 @@ public class Feedback {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
 	@Basic
 	@Column(name = "deleted", nullable = true, length = 25)
 	private String deleted;
@@ -59,6 +60,10 @@ public class Feedback {
 	}
 	public void setDeleted() {
 		this.deleted = "deleted";
+	}
+	
+	public void recover() {
+		this.deleted = null;
 	}
 	
 	@Override

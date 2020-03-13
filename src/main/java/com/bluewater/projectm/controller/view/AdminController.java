@@ -86,15 +86,15 @@ public class AdminController {
 	private FeedbackRepository feedBackRepository;
 	
 	@Autowired
-	private DiningReservationRepository drr;
+	private DiningReservationRepository diningReservationRepository;
 	@Autowired
-	private ThemedDinerReservationRepository tdr;
+	private ThemedDinerReservationRepository themedDinerReservationRepository;
 	
 	@Autowired
 	private ServicesRepository servicesRepository;
 	
 	@Autowired
-	private SpaReservationRepository srr;
+	private SpaReservationRepository spaReservationRepository;
 	
 	
 	
@@ -265,12 +265,38 @@ public class AdminController {
 		return "admin/diningList";
 	}
 	
+	//show restaurant archive
+	@RequestMapping(method = RequestMethod.GET, value="/diningList/archives")
+	public String diningArchive(ModelMap map, Dining dining, ThemedDiner themedDiner) {
+		
+		map.addAttribute("diningList", diningRepository.findByDeleted());
+		map.addAttribute("tdList", themedDinerRepository.findByDeleted());
+		return "admin/diningList_archive";
+	}
+	
+
+	
+	
+	
+	@RequestMapping(method=RequestMethod.GET, value="/dining/recover/{id}")
+	public String diningRecover(ModelMap map, @PathVariable(name="id") int id) {
+		
+		Dining dining=diningRepository.findById(id);
+		dining.recover();
+		diningRepository.saveAndFlush(dining);
+
+		map.addAttribute("diningList", diningRepository.findByDeleted());
+		map.addAttribute("tdList", themedDinerRepository.findByDeleted());
+		return "admin/diningList_archive";
+	}
+	
+	
 	//delete dining reservation
 	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/delete/{diningReservationId}")
 	public String deleteDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
-		drr.deleteById(diningReservationId);
+		diningReservationRepository.deleteById(diningReservationId);
 		
-		map.addAttribute("diningReservations", drr.getAllDiningReservation());
+		map.addAttribute("diningReservations", diningReservationRepository.getAllDiningReservation());
 		return "redirect:/admin/allDiningReservations";
 	}
 	
@@ -278,64 +304,82 @@ public class AdminController {
 	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/update/{diningReservationId}")
 	public String updateDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
 	
-		DiningReservation temp = drr.getOne(diningReservationId);
+		DiningReservation temp = diningReservationRepository.getOne(diningReservationId);
 		temp.setStatus("Seated");
-		drr.saveAndFlush(temp);
-		map.addAttribute("diningReservations", drr.getAllDiningReservation());
+		diningReservationRepository.saveAndFlush(temp);
+		map.addAttribute("diningReservations", diningReservationRepository.getAllDiningReservation());
 		
 		return "redirect:/admin/allDiningReservations";
 	}
 	
 	
+	
 	//display lists of reservations
 	@RequestMapping(method = RequestMethod.GET, value="/allDiningReservations")
 	public String diningReservationsList(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest) {
-			map.addAttribute("diningReservations", drr.getAllDiningReservation());
+			map.addAttribute("diningReservations", diningReservationRepository.getAllDiningReservation());
 			return"admin/allDiningReservations";
+		}
+	
+	//archive dining reservations
+	@RequestMapping(method = RequestMethod.GET, value="/allDiningReservations/archive")
+	public String alldiningreservationsarchive(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest) {
+			map.addAttribute("diningReservations", diningReservationRepository.findByDeleted());
+			map.addAttribute("tdReservations", themedDinerReservationRepository.findByDeleted());
+			return"admin/allDiningReservations_archive";
 		}
 	
 	
 //THEMED-DINER	
-	//deletes themed dinner
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerRemove/{id}")
-	public String themedDinerRemove(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
+	public String themedDinerRecover(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
 		
 		themedDiner = themedDinerRepository.findById(id);
 		themedDiner.setDeleted();
+		
 		themedDinerRepository.saveAndFlush(themedDiner);
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
-		
 		return "admin/diningList";
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, value="/themedDinerRecover/{id}")
+	public String themedDinerRemove(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
+		
+		themedDiner = themedDinerRepository.findById(id);
+		themedDiner.recover();
+		
+		themedDinerRepository.saveAndFlush(themedDiner);
+		map.addAttribute("diningList", diningRepository.findByDeleted());
+		map.addAttribute("tdList", themedDinerRepository.findByDeleted());
+		return "admin/diningList_achives";
+	}
 	
-	//shows themed dinner update form
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerUpdate/{id}")
 	public String themedDinerUpdateForm(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
+		
 		
 		map.addAttribute("themedDinerList", themedDinerRepository.findById(id));
 		return "admin/updateThemedDiner";
 	}
 	
-	
-	//updates themed dinner
 	@RequestMapping(method=RequestMethod.POST, value="/themedDiner/{id}/updated")
 	public String themedDinerUpdate(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
 		
+		
 		themedDiner.setImgFilePath(themedDinerRepository.findById(id).getImgFilePath());
 		themedDiner.setId(id);
+		
 		themedDinerRepository.saveAndFlush(themedDiner);
 		map.addAttribute("diningList", diningRepository.findByNotDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByNotDeleted());
-		
 		return "admin/diningList";
 	}
 	
 	
-	//displays lists of themed dinners
+	
 	@RequestMapping(method = RequestMethod.GET, value="/themedDinerList")
-	public String themedDinerList( ThemedDiner themedDiner,ModelMap map ) {
+	public String showThemedDinerList( ThemedDiner themedDiner,ModelMap map ) {
 		
 		map.addAttribute("themedDinerList", themedDinerRepository.findByNotDeleted());
 		
@@ -343,7 +387,11 @@ public class AdminController {
 	}
 
 	
-	// add themed dinner
+	
+	
+
+	
+
 	@RequestMapping(method = RequestMethod.POST, value="/themedDiner/view")
 	public String saveThemedDiner(
 			ThemedDiner themedDiner, ModelMap map, @RequestParam String themedDinerName, @RequestParam String themedDinerAvailability,
@@ -351,19 +399,19 @@ public class AdminController {
 		
 		themedDiner.setImgFilePath(imgFile.getOriginalFilename());
 		themedDinerRepository.saveAndFlush(themedDiner);
+		
 		 File file = new File(uploadingDir + imgFile.getOriginalFilename());
 		 imgFile.transferTo(file);
 	
 	return "redirect:/admin/diningList";
 	}
 	
-	
 	//delete themed dinner reservation
 	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/delete/{themedDinerReservationId}")
 	public String deleteThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
-		tdr.deleteById(themedDinerReservationId);
+		themedDinerReservationRepository.deleteById(themedDinerReservationId);
 		
-		map.addAttribute("tdReservations", tdr.getAllThemedDinerReservation() );
+		map.addAttribute("tdReservations", themedDinerReservationRepository.getAllThemedDinerReservation() );
 		return "redirect:/admin/themedDinerReservations";
 	}
 	
@@ -373,10 +421,10 @@ public class AdminController {
 	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/update/{themedDinerReservationId}")
 	public String updateThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
 	
-		ThemedDinerReservation temp = tdr.getOne(themedDinerReservationId);
+		ThemedDinerReservation temp = themedDinerReservationRepository.getOne(themedDinerReservationId);
 		temp.setStatus("Seated");
-		tdr.saveAndFlush(temp);
-		map.addAttribute("tdReservations", tdr.getAllCurrentThemedDinerReservation());
+		themedDinerReservationRepository.saveAndFlush(temp);
+		map.addAttribute("tdReservations", themedDinerReservationRepository.getAllCurrentThemedDinerReservation());
 		
 		return "redirect:/admin/themedDinerReservations";
 	}
@@ -384,14 +432,13 @@ public class AdminController {
 	//display lists of themed dinner reservations
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerReservations")
 	public String themedDinerReservationList(ModelMap  map, ThemedDinerReservation themedDinerRservation, ThemedDiner themedDiner, Guest guest) {
-		map.addAttribute("tdReservations", tdr.getAllThemedDinerReservation() );
+		map.addAttribute("tdReservations", themedDinerReservationRepository.getAllThemedDinerReservation() );
 		return"admin/themedDinerReservations";
 	}
 
 	
 	
 	
-//IN-ROOM-DINING	
 	@RequestMapping(method = RequestMethod.POST, value="/in-room-dining-category-list/{id}/in-room-dining-menu/view")
 	public String saveInRoomDiningCategory(@PathVariable(name="id") int inRoomDiningCategoryId,  InRoomDiningCategory inRoomDiningCategory,
 			InRoomDiningMenu inRoomDiningMenu, ModelMap map, @RequestParam String menuName, @RequestParam int menuPrice,
@@ -400,6 +447,8 @@ public class AdminController {
 		
 		InRoomDiningCategory cat = inRoomDiningCategoryRepository.findById(inRoomDiningCategoryId);
 		inRoomDiningMenu.setImgFilePath(imgFile.getOriginalFilename());
+		
+		
 		InRoomDiningMenu inRoomDiningMenuToBeAdd= new InRoomDiningMenu();
 		inRoomDiningMenuToBeAdd.setImgFilePath(imgFile.getOriginalFilename());
 		inRoomDiningMenuToBeAdd.setMenuName(menuName);
@@ -419,6 +468,7 @@ public class AdminController {
 	}
 
 	
+	//IN-ROOM-DINING
 	
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category/add")
 	public String showAddInRoomDiningCategoryForm() {
@@ -440,6 +490,21 @@ public class AdminController {
 		return "admin/inroomdiningcategorylist";
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, value="/in-room-dining-category-list/recover/{id}")
+	public String inRoomDiningCategoryRecover(ModelMap map, @PathVariable(name="id") int id) {
+		
+		InRoomDiningCategory inRoomDiningCategory=inRoomDiningCategoryRepository.findById(id);
+		inRoomDiningCategory.recover();
+		inRoomDiningCategoryRepository.saveAndFlush(inRoomDiningCategory);
+
+
+		
+		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findByDeleted());
+		
+		return "admin/inroomdiningcategoryarchive";
+	}
+	
+	
 	
 	@RequestMapping(method = RequestMethod.POST, value="/in-room-dining-category/view")
 	public String saveInRoomDiningCategory(ModelMap map, InRoomDiningCategory inRoomDiningCategory,
@@ -456,9 +521,17 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category-list")
 	public String showInRoomDiningCategoryList( InRoomDiningCategory inRoomDiningCategory,ModelMap map ) {
 		
-		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findAll());
+		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findByNotDeleted());
 		
 		return "admin/inroomdiningcategorylist";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category-archive")
+	public String showInRoomDiningCategoryArchvie( InRoomDiningCategory inRoomDiningCategory,ModelMap map ) {
+		
+		map.addAttribute("inRoomDiningCategoryList", inRoomDiningCategoryRepository.findByDeleted());
+		
+		return "admin/inroomdiningcategoryarchive";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category-list/{inRoomDiningCategoryId}")
@@ -481,13 +554,22 @@ public class AdminController {
 		
 		return "admin/inRoomOrderList";
 	}
+	
+	@RequestMapping(method = RequestMethod.GET,value="/in-room-dining-category-list/orderarchives")
+	public String showInRoomOrderArchive(ModelMap map) {
+		
+		map.addAttribute("orderlist", inRoomOrderRepository.findByDeleted());
+		
+		return "admin/inRoomOrderList_archive";
+	}
 	@RequestMapping(method=RequestMethod.GET, value="/inRoomMenu/Order/update/{menuid}")
 	public String updateOrder(@PathVariable(name="menuid") int id, ModelMap map) {
 	
 		InRoomOrder temp = 	inRoomOrderRepository.findById(id);
-		temp.setStatus("Prepared");
+		temp.setStatus("Served");
+		temp.setDeleted();
 		inRoomOrderRepository.saveAndFlush(temp);
-		map.addAttribute("orderlist", inRoomOrderRepository.findAll());
+		map.addAttribute("orderlist", inRoomOrderRepository.findByNotDeleted());
 	
 		return "admin/inRoomOrderList";
 	}
@@ -499,10 +581,16 @@ public class AdminController {
 		inRoomOrderRepository.saveAndFlush(inRoomOrder);
 		map.addAttribute("orderlist", inRoomOrderRepository.findByNotDeleted());
 		return "admin/inRoomOrderList";
-	}
+	}  
 	
-	
-	
+	@RequestMapping(method=RequestMethod.GET, value="/inRoomMenu/Order/recover/{menuid}")
+	public String recoverOrder(@PathVariable(name="menuid") int id, ModelMap map) {
+		InRoomOrder inRoomOrder=inRoomOrderRepository.findById(id);
+		inRoomOrder.recover();
+		inRoomOrderRepository.saveAndFlush(inRoomOrder);
+		map.addAttribute("orderlist", inRoomOrderRepository.findByDeleted());
+		return "admin/inRoomOrderList_archive";
+	}  
 	
 	
 
@@ -516,7 +604,7 @@ public class AdminController {
 	//display lists of spa reservations
 	@RequestMapping(method=RequestMethod.GET, value="/spaReservations")
 	public String spaReservationList(ModelMap  map, SpaReservation spaReservation, Services services, Guest guest) {
-		map.addAttribute("spaReservations", srr.getAllSpaReservation());
+		map.addAttribute("spaReservations", spaReservationRepository.getAllSpaReservation());
 
 		return"admin/spaReservations";
 	}
@@ -528,10 +616,10 @@ public class AdminController {
 	@RequestMapping(method=RequestMethod.GET, value="/spa/service/reservation/update/{spaReservationId}")
 	public String updateSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, Services services, Guest guest, ModelMap map) {
 	
-		SpaReservation temp = srr.getOne(spaReservationId);
+		SpaReservation temp = spaReservationRepository.getOne(spaReservationId);
 		temp.setStatus("Handled");
-		srr.saveAndFlush(temp);
-		map.addAttribute("spaReservations", srr.getAllSpaReservation());
+		spaReservationRepository.saveAndFlush(temp);
+		map.addAttribute("spaReservations", spaReservationRepository.getAllSpaReservation());
 		
 	
 		return "redirect:/admin/spaReservations";
@@ -541,9 +629,9 @@ public class AdminController {
 	//delete spa reservation
 	@RequestMapping(method=RequestMethod.GET, value="/spa/service/reservation/delete/{spaReservationId}")
 	public String deleteSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, ModelMap map) {
-		srr.deleteById(spaReservationId);
+		spaReservationRepository.deleteById(spaReservationId);
 		
-		map.addAttribute("spaReservations", srr.getAllSpaReservation());
+		map.addAttribute("spaReservations", spaReservationRepository.getAllSpaReservation());
 		return "redirect:/admin/spaReservations";
 	}
 	
@@ -599,6 +687,13 @@ public class AdminController {
 		return "admin/resortServicesList";
 	}
 	
+	//resort services archive
+	@RequestMapping(method = RequestMethod.GET, value="/resortServices/archive")
+	public String resortServicesArchive(ModelMap map, ResortServices resortServices) {
+		map.addAttribute("resortServiceList", resortServicesRepository.findByDeleted() );
+		return "admin/resortserviceslist_archive";
+	}
+	
 	
 	//EVENTS
 	//delete event
@@ -630,6 +725,12 @@ public class AdminController {
 		return "admin/eventsList";
 	}
 	
+	//events archive
+	@RequestMapping(method = RequestMethod.GET, value="/events/archive")
+	public String eventsArchive(ModelMap map, Events events) {
+		map.addAttribute("eventsList", eventsRepository.findByDeleted());
+		return "admin/eventsList_archive";
+	}
 	
 //FEEDBACK
 	
@@ -640,6 +741,15 @@ public class AdminController {
 		
 		return "admin/feedbackList";
 	}
+	
+	//feedback archive
+	@RequestMapping(method = RequestMethod.GET, value="/feedbacks/archive")
+	public String feedbackArchive(ModelMap map, Events events) {
+		map.addAttribute("feedbacklist", feedBackRepository.findByDeleted());
+		
+		return "admin/feedbackList_archive";
+	}
+	
 	
 
 	
@@ -708,7 +818,13 @@ public class AdminController {
 		return "redirect:/admin/spaTherapies";
 	}
 	
-	
+	//services archive
+	@RequestMapping(method = RequestMethod.GET, value="/spaTherapies/archive")
+	public String servicesArchive(ModelMap map, Services services) {
+		map.addAttribute("therapiesList", servicesRepository.findByDeleted());
+		
+		return"admin/spaTherapies";
+	}
 	
 	
 	

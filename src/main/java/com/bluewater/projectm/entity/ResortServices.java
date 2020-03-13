@@ -64,6 +64,10 @@ public class ResortServices {
 		this.deleted = "deleted";
 	}
 	
+	public void recover() {
+		this.deleted = null;
+	}
+	
 
 	@Override
 	public String toString() {

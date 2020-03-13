@@ -96,6 +96,10 @@ public class Services {
 		this.deleted = "deleted";
 	}
 	
+	public void recover() {
+		this.deleted = null;
+	}
+	
 	@Override
 	public String toString() {
 		return "Services [id=" + id + ", serviceName=" + serviceName + ", servicePrice=" + servicePrice

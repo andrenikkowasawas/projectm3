@@ -16,4 +16,6 @@ public interface DiningRepository extends JpaRepository<Dining, Integer> {
 	
 	@Query(value = "SELECT * FROM `dining` WHERE `deleted` IS NULL", nativeQuery=true)
 	List<Dining> findByNotDeleted();
+	@Query(value = "SELECT * FROM `dining` WHERE `deleted` IS NOT NULL", nativeQuery=true)
+	List<Dining> findByDeleted();
 }

@@ -103,6 +103,10 @@ public class ThemedDiner {
 		public void setDeleted() {
 			this.deleted = "deleted";
 		}
+		
+		public void recover() {
+			this.deleted = null;
+		}
 	
 	@Override
 	public String toString() {
