@@ -122,7 +122,13 @@ public class AdminController {
 	
 	//add room
 	@RequestMapping(method = RequestMethod.POST, value="/roomInfo")
-	public String saveRoom(ModelMap map, Room room, @RequestParam String roomNo) {
+	public String saveRoom(ModelMap map, Room room, @RequestParam String roomNo,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+
 		roomRepository.saveAndFlush(room);
 		map.put("roomNo", roomNo);
 		return "redirect:/admin/home";
@@ -152,7 +158,12 @@ public class AdminController {
 	
 	//checks out guest
 	@RequestMapping(method=RequestMethod.GET, value="/room/{roomId}/guest/checkout")
-	public String checkoutGuest(@PathVariable(name="roomId")int id, ModelMap map) {
+	public String checkoutGuest(@PathVariable(name="roomId")int id, ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		Room room=roomRepository.getOne(id);
 		Guest guest=guestRepository.findById(room.getOccupyingGuest());
@@ -168,7 +179,12 @@ public class AdminController {
 	
 	//guest archive
 	@RequestMapping(method=RequestMethod.GET, value="archives/guest")
-	public String guestArchive(ModelMap map) {
+	public String guestArchive(ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("guestarchive", guestRepository.findByDeleted());
 		
@@ -181,7 +197,12 @@ public class AdminController {
 	public String saveGuest(@PathVariable (name="room.id") int id,ModelMap map, Room room, Guest guest, @RequestParam String guestFirstname, @RequestParam 
 			String guestLastname, @RequestParam String guestAge, @RequestParam String guestGender, 
 			@RequestParam String guestNationality, @RequestParam String guestPhoneNum, 
-			@RequestParam String guestEmailAddress) {
+			@RequestParam String guestEmailAddress,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("room", roomRepository.findByNotDeleted());	
 		Guest guestToOccupy= guestRepository.saveAndFlush(guest);
@@ -201,6 +222,7 @@ public class AdminController {
 		String username = (String) session.getAttribute("userSession");
 		if(username == null)
 			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("guest",guestRepository.findAll());
 		//guest Gender
@@ -256,7 +278,12 @@ public class AdminController {
 	//add restaurant
 	@RequestMapping(method = RequestMethod.POST, value="/dininginfo")
 	public String saveDining(ModelMap map, Dining dining, @RequestParam String diningName,
-			@RequestParam String diningDescription, @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
+			@RequestParam String diningDescription, @RequestParam MultipartFile imgFile,HttpSession session) throws IllegalStateException, IOException {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		dining.setImgFilePath(imgFile.getOriginalFilename());
 		diningRepository.saveAndFlush(dining);
@@ -273,7 +300,12 @@ public class AdminController {
 	
 	//deletes restaurant
 	@RequestMapping(method=RequestMethod.GET, value="/dining/delete/{id}")
-	public String diningRemove(ModelMap map, @PathVariable(name="id") int id) {
+	public String diningRemove(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		Dining dining=diningRepository.findById(id);
 		dining.setDeleted();
@@ -286,7 +318,12 @@ public class AdminController {
 	
 	//display dining update form
 	@RequestMapping(method=RequestMethod.GET, value="/dining/update/{id}")
-	public String diningUpdateForm(ModelMap map, @PathVariable(name="id") int id) {
+	public String diningUpdateForm(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("dining",diningRepository.findById(id));		
 		return "admin/updateDining";
@@ -295,8 +332,12 @@ public class AdminController {
 	
 	//updates restaurant
 	@RequestMapping(method=RequestMethod.POST, value="/dining/{id}/updated")
-	public String diningUpdate(ModelMap map, @PathVariable(name="id") int id, Dining dining) {
+	public String diningUpdate(ModelMap map, @PathVariable(name="id") int id, Dining dining,HttpSession session) {
 		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		dining.setImgFilePath(diningRepository.findById(id).getImgFilePath());
 		dining.setId(id);
@@ -309,7 +350,12 @@ public class AdminController {
 	
 	//show restaurant archive
 	@RequestMapping(method = RequestMethod.GET, value="/diningList/archives")
-	public String diningArchive(ModelMap map, Dining dining, ThemedDiner themedDiner) {
+	public String diningArchive(ModelMap map, Dining dining, ThemedDiner themedDiner,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("diningList", diningRepository.findByDeleted());
 		map.addAttribute("tdList", themedDinerRepository.findByDeleted());
@@ -321,7 +367,12 @@ public class AdminController {
 	
 	
 	@RequestMapping(method=RequestMethod.GET, value="/dining/recover/{id}")
-	public String diningRecover(ModelMap map, @PathVariable(name="id") int id) {
+	public String diningRecover(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		Dining dining=diningRepository.findById(id);
 		dining.recover();
@@ -335,7 +386,13 @@ public class AdminController {
 	
 	//delete dining reservation
 	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/delete/{diningReservationId}")
-	public String deleteDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
+	public String deleteDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		DiningReservation diningReservation=diningReservationRepository.findById(diningReservationId);
 		diningReservation.setDeleted();
 		diningReservationRepository.save(diningReservation);
@@ -346,8 +403,13 @@ public class AdminController {
 	
 	//update dining reservation
 	@RequestMapping(method=RequestMethod.GET, value="/dining/reservation/all/update/{diningReservationId}")
-	public String updateDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map) {
+	public String updateDiningReservation(@PathVariable(name="diningReservationId") int diningReservationId, ModelMap map,HttpSession session) {
 	
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		DiningReservation temp = diningReservationRepository.getOne(diningReservationId);
 		temp.setStatus("Seated");
 		diningReservationRepository.saveAndFlush(temp);
@@ -360,21 +422,39 @@ public class AdminController {
 	
 	//display lists of reservations
 	@RequestMapping(method = RequestMethod.GET, value="/allDiningReservations")
-	public String diningReservationsList(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest) {
+	public String diningReservationsList(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest,HttpSession session) {
+			
+			String username = (String) session.getAttribute("userSession");
+			if(username == null)
+				return ("redirect:/admin/login");
+			map.addAttribute("username", username);
+		
 			map.addAttribute("diningReservations", diningReservationRepository.getAllDiningReservation());
 			return"admin/allDiningReservations";
 		}
 	
 	//archive dining reservations
 	@RequestMapping(method = RequestMethod.GET, value="/archive/reservations/dining")
-	public String alldiningreservationsarchive(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest) {
+	public String alldiningreservationsarchive(ModelMap map, DiningReservation diningReservation, Dining dining, Guest guest,HttpSession session) {
+			
+			String username = (String) session.getAttribute("userSession");
+			if(username == null)
+				return ("redirect:/admin/login");
+			map.addAttribute("username", username);
+		
 			map.addAttribute("diningReservations", diningReservationRepository.findByDeleted());
 			return"admin/allDiningReservations_archive";
 		}
 	
 	//archive themed dinner reservations
 		@RequestMapping(method = RequestMethod.GET, value="/archive/reservations/themedDiner")
-		public String themedDiningReservationsArchive (ModelMap map, ThemedDiner themedDiner,ThemedDinerReservation themedDinerRservation,  Guest guest) {
+		public String themedDiningReservationsArchive (ModelMap map, ThemedDiner themedDiner,ThemedDinerReservation themedDinerRservation,  Guest guest,HttpSession session) {
+				
+			String username = (String) session.getAttribute("userSession");
+			if(username == null)
+				return ("redirect:/admin/login");
+			map.addAttribute("username", username);
+			
 				map.addAttribute("tdReservations", themedDinerReservationRepository.findByDeleted());
 				return"admin/themedDinerReservationArchive";
 			}
@@ -382,7 +462,12 @@ public class AdminController {
 	
 //THEMED-DINER	
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerRemove/{id}")
-	public String themedDinerRecover(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
+	public String themedDinerRecover(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		themedDiner = themedDinerRepository.findById(id);
 		themedDiner.setDeleted();
@@ -395,16 +480,24 @@ public class AdminController {
 
 	
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerUpdate/{id}")
-	public String themedDinerUpdateForm(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
+	public String themedDinerUpdateForm(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
 		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("themedDinerList", themedDinerRepository.findById(id));
 		return "admin/updateThemedDiner";
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/themedDiner/{id}/updated")
-	public String themedDinerUpdate(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id) {
+	public String themedDinerUpdate(ThemedDiner themedDiner,ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
 		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		themedDiner.setImgFilePath(themedDinerRepository.findById(id).getImgFilePath());
 		themedDiner.setId(id);
@@ -418,23 +511,27 @@ public class AdminController {
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value="/themedDinerList")
-	public String showThemedDinerList( ThemedDiner themedDiner,ModelMap map ) {
+	public String showThemedDinerList( ThemedDiner themedDiner,ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("themedDinerList", themedDinerRepository.findByNotDeleted());
 		
 		return "admin/themedDinerlist";
 	}
 
-	
-	
-	
-
-	
-
 	@RequestMapping(method = RequestMethod.POST, value="/themedDiner/view")
 	public String saveThemedDiner(
 			ThemedDiner themedDiner, ModelMap map, @RequestParam String themedDinerName, @RequestParam String themedDinerAvailability,
-			@RequestParam String rate, @RequestParam String description,  @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
+			@RequestParam String rate, @RequestParam String description,  @RequestParam MultipartFile imgFile,HttpSession session) throws IllegalStateException, IOException {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		themedDiner.setImgFilePath(imgFile.getOriginalFilename());
 		themedDinerRepository.saveAndFlush(themedDiner);
@@ -447,7 +544,13 @@ public class AdminController {
 	
 	//delete themed dinner reservation
 	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/delete/{themedDinerReservationId}")
-	public String deleteThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
+	public String deleteThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		ThemedDinerReservation themedDinerReservation=themedDinerReservationRepository.findById(themedDinerReservationId);
 		themedDinerReservation.setDeleted();
 		themedDinerReservationRepository.save(themedDinerReservation);
@@ -459,8 +562,13 @@ public class AdminController {
 	
 	//update themed dinner reservation
 	@RequestMapping(method=RequestMethod.GET, value="/themedDiner/reservation/all/update/{themedDinerReservationId}")
-	public String updateThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map) {
+	public String updateThemedDinerReservation(@PathVariable(name="themedDinerReservationId") int themedDinerReservationId, ModelMap map,HttpSession session) {
 	
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		ThemedDinerReservation temp = themedDinerReservationRepository.getOne(themedDinerReservationId);
 		temp.setStatus("Seated");
 		themedDinerReservationRepository.saveAndFlush(temp);
@@ -471,7 +579,13 @@ public class AdminController {
 	
 	//display lists of themed dinner reservations
 	@RequestMapping(method=RequestMethod.GET, value="/themedDinerReservations")
-	public String themedDinerReservationList(ModelMap  map, ThemedDinerReservation themedDinerRservation, ThemedDiner themedDiner, Guest guest) {
+	public String themedDinerReservationList(ModelMap  map, ThemedDinerReservation themedDinerRservation, ThemedDiner themedDiner, Guest guest,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("tdReservations", themedDinerReservationRepository.getAllThemedDinerReservation() );
 		return"admin/themedDinerReservations";
 	}
@@ -481,8 +595,12 @@ public class AdminController {
 	
 	@RequestMapping(method = RequestMethod.POST, value="/inRoomMenu/save")
 	public String saveInRoomMenu( InRoomDiningMenu inRoomDiningMenu, ModelMap map, @RequestParam String menuName, @RequestParam int menuPrice,
-			@RequestParam String menuDescription, @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
+			@RequestParam String menuDescription, @RequestParam MultipartFile imgFile,HttpSession session) throws IllegalStateException, IOException {
 		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		inRoomDiningMenu.setImgFilePath(imgFile.getOriginalFilename());
 		
@@ -505,13 +623,24 @@ public class AdminController {
 	//IN-ROOM-DINING
 	
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category/add")
-	public String showAddInRoomDiningCategoryForm() {
+	public String showAddInRoomDiningCategoryForm(ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		return"admin/addInRoomDiningCategory";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/in-room-dining-category-list")
-	public String showMenuList(ModelMap map, InRoomDiningMenu inRoomDiningMenu) {
+	public String showMenuList(ModelMap map, InRoomDiningMenu inRoomDiningMenu,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("menuList", inRoomDiningMenuRepository.findByNotDeleted());
 		
 		return"admin/inroomdiningcategorylist";
@@ -520,7 +649,12 @@ public class AdminController {
 
 	
 	@RequestMapping(method=RequestMethod.GET, value="/in-room-dining-category-list/menu/remove/{id}")
-	public String inRoomDiningMenuRemove(ModelMap map, @PathVariable(name="id") int id) {
+	public String inRoomDiningMenuRemove(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		InRoomDiningMenu inRoomDiningMenu=inRoomDiningMenuRepository.findById(id);
 		inRoomDiningMenu.setDeleted();
@@ -531,19 +665,15 @@ public class AdminController {
 		map.addAttribute("menuList", inRoomDiningMenuRepository.findByNotDeleted());
 		
 		return "admin/inroomdiningcategorylist";
-	}
-	
-	
-	
-	
-
-	
-	
-	
-	
+	}	
 	
 	@RequestMapping(method = RequestMethod.GET, value="/inRoomMenu")
-	public String showAddInRoomDiningMenuForm( ModelMap map) {
+	public String showAddInRoomDiningMenuForm( ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 	return "admin/addInRoomDiningMenu";
 	}
@@ -552,7 +682,12 @@ public class AdminController {
 
 	
 	@RequestMapping(method = RequestMethod.GET,value="/in-room-dining-category-list/orderlist")
-	public String showInRoomOrderList(ModelMap map) {
+	public String showInRoomOrderList(ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("orderlist", inRoomOrderRepository.findByNotDeleted());
 		
@@ -560,15 +695,25 @@ public class AdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET,value="/in-room-dining-category-list/orderarchives")
-	public String showInRoomOrderArchive(ModelMap map) {
+	public String showInRoomOrderArchive(ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("orderlist", inRoomOrderRepository.findByDeleted());
 		
 		return "admin/inRoomOrderList_archive";
 	}
 	@RequestMapping(method=RequestMethod.GET, value="/inRoomMenu/Order/update/{menuid}")
-	public String updateOrder(@PathVariable(name="menuid") int id, ModelMap map) {
-	
+	public String updateOrder(@PathVariable(name="menuid") int id, ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		InRoomOrder temp = 	inRoomOrderRepository.findById(id);
 		temp.setStatus("Served");
 		temp.setDeleted();
@@ -579,7 +724,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/inRoomMenu/Order/delete/{menuid}")
-	public String deleteOrder(@PathVariable(name="menuid") int id, ModelMap map) {
+	public String deleteOrder(@PathVariable(name="menuid") int id, ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		InRoomOrder inRoomOrder=inRoomOrderRepository.findById(id);
 		inRoomOrder.setDeleted();
 		inRoomOrderRepository.saveAndFlush(inRoomOrder);
@@ -588,7 +739,13 @@ public class AdminController {
 	}  
 	
 	@RequestMapping(method=RequestMethod.GET, value="/inRoomMenu/Order/recover/{menuid}")
-	public String recoverOrder(@PathVariable(name="menuid") int id, ModelMap map) {
+	public String recoverOrder(@PathVariable(name="menuid") int id, ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		InRoomOrder inRoomOrder=inRoomOrderRepository.findById(id);
 		inRoomOrder.recover();
 		inRoomOrderRepository.saveAndFlush(inRoomOrder);
@@ -607,7 +764,13 @@ public class AdminController {
 	
 	//display lists of spa reservations
 	@RequestMapping(method=RequestMethod.GET, value="/spaReservations")
-	public String spaReservationList(ModelMap  map, SpaReservation spaReservation, Services services, Guest guest) {
+	public String spaReservationList(ModelMap  map, SpaReservation spaReservation, Services services, Guest guest,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("spaReservations", spaReservationRepository.getAllSpaReservation());
 
 		return"admin/spaReservations";
@@ -618,8 +781,13 @@ public class AdminController {
 	
 	//save spa reservation
 	@RequestMapping(method=RequestMethod.GET, value="/spa/service/reservation/update/{spaReservationId}")
-	public String updateSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, Services services, Guest guest, ModelMap map) {
+	public String updateSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, Services services, Guest guest, ModelMap map,HttpSession session) {
 	
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		SpaReservation temp = spaReservationRepository.getOne(spaReservationId);
 		temp.setStatus("Handled");
 		spaReservationRepository.saveAndFlush(temp);
@@ -632,7 +800,13 @@ public class AdminController {
 	
 	//delete spa reservation
 	@RequestMapping(method=RequestMethod.GET, value="/spa/service/reservation/delete/{spaReservationId}")
-	public String deleteSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, ModelMap map) {
+	public String deleteSpaReservation(@PathVariable(name="spaReservationId") int spaReservationId, ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		spaReservationRepository.deleteById(spaReservationId);
 		
 		map.addAttribute("spaReservations", spaReservationRepository.getAllSpaReservation());
@@ -644,7 +818,12 @@ public class AdminController {
 	
 	// delete resort service
 	@RequestMapping(method=RequestMethod.GET, value="/resortServiceList/remove/{id}")
-	public String deleteResortService(ModelMap map, @PathVariable(name="id") int id) {
+	public String deleteResortService(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		ResortServices resortService=resortServicesRepository.findById(id);
 		resortService.setDeleted();
@@ -657,8 +836,12 @@ public class AdminController {
 	
 	//show update resort service form
 	@RequestMapping(method=RequestMethod.GET, value="/resortServiceList/update/{id}")
-	public String updateResortServiceForm(ModelMap map, @PathVariable(name="id") int id) {
+	public String updateResortServiceForm(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
 		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("resortService", resortServicesRepository.findById(id));
 		return "admin/updateResortServices";
@@ -667,7 +850,12 @@ public class AdminController {
 	
 	//update resort service
 	@RequestMapping(method = RequestMethod.POST, value="/resort-services/update/{id}/view")
-	public String updateResortService(ModelMap map, ResortServices resortServices, @PathVariable(name="id") int id) {
+	public String updateResortService(ModelMap map, ResortServices resortServices, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		resortServices.setId(id);
 		resortServicesRepository.saveAndFlush(resortServices);
@@ -678,7 +866,13 @@ public class AdminController {
 	
 	//save resort service
 	@RequestMapping(method = RequestMethod.POST, value="/resortServicesInfo")
-	public String saveResortService(ModelMap map, ResortServices resortServices) {
+	public String saveResortService(ModelMap map, ResortServices resortServices,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		resortServicesRepository.saveAndFlush(resortServices);
 		
 		return "redirect:/admin/resortServices";
@@ -686,14 +880,26 @@ public class AdminController {
 	
 	//display lists of resort services
 	@RequestMapping(method = RequestMethod.GET, value="/resortServices")
-	public String resortServicesList(ModelMap map, ResortServices resortServices) {
+	public String resortServicesList(ModelMap map, ResortServices resortServices,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("resortServiceList", resortServicesRepository.findByNotDeleted());
 		return "admin/resortServicesList";
 	}
 	
 	//resort services archive
 	@RequestMapping(method = RequestMethod.GET, value="/resortServices/archive")
-	public String resortServicesArchive(ModelMap map, ResortServices resortServices) {
+	public String resortServicesArchive(ModelMap map, ResortServices resortServices,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("resortServiceList", resortServicesRepository.findByDeleted() );
 		return "admin/resortserviceslist_archive";
 	}
@@ -702,8 +908,13 @@ public class AdminController {
 	//EVENTS
 	//delete event
 	@RequestMapping(method = RequestMethod.GET, value="/events/remove/{id}")
-	public String deleteEvent(ModelMap map,  @PathVariable(name="id") int id) {
+	public String deleteEvent(ModelMap map,  @PathVariable(name="id") int id,HttpSession session) {
 			
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		Events event=eventsRepository.findById(id);
 		event.setDeleted();
 		eventsRepository.saveAndFlush(event);
@@ -713,7 +924,12 @@ public class AdminController {
 	
 	//save event photo
 	@RequestMapping(method = RequestMethod.POST, value="/eventInfo")
-	public String saveEvent(ModelMap map, Events events,  @RequestParam MultipartFile imgFile) {
+	public String saveEvent(ModelMap map, Events events,  @RequestParam MultipartFile imgFile,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		events.setImgFilePath(imgFile.getOriginalFilename());
 	
@@ -724,14 +940,26 @@ public class AdminController {
 
 	//display lists of events
 	@RequestMapping(method = RequestMethod.GET, value="/events")
-	public String eventsList(ModelMap map, Events events) {
+	public String eventsList(ModelMap map, Events events,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("eventsList", eventsRepository.findByNotDeleted());
 		return "admin/eventsList";
 	}
 	
 	//events archive
 	@RequestMapping(method = RequestMethod.GET, value="/events/archive")
-	public String eventsArchive(ModelMap map, Events events) {
+	public String eventsArchive(ModelMap map, Events events,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("eventsList", eventsRepository.findByDeleted());
 		return "admin/eventsList_archive";
 	}
@@ -740,7 +968,13 @@ public class AdminController {
 	
 	//display lists of feedbacks
 	@RequestMapping(method = RequestMethod.GET, value="/feedbacks")
-	public String feedbackList(ModelMap map) {
+	public String feedbackList(ModelMap map,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("feedbacklist", feedBackRepository.findByNotDeleted());
 		
 		return "admin/feedbackList";
@@ -748,7 +982,13 @@ public class AdminController {
 	
 	//feedback archive
 	@RequestMapping(method = RequestMethod.GET, value="/feedbacks/archive")
-	public String feedbackArchive(ModelMap map, Events events) {
+	public String feedbackArchive(ModelMap map, Events events,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("feedbacklist", feedBackRepository.findByDeleted());
 		
 		return "admin/feedbackList_archive";
@@ -760,7 +1000,13 @@ public class AdminController {
 //SERVICES - SPA THERAPY
 		//display lists of services
 	@RequestMapping(method = RequestMethod.GET, value="/spaTherapies")
-	public String servicesList (ModelMap map, Services services) {
+	public String servicesList (ModelMap map, Services services,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("therapiesList", servicesRepository.findByNotDeleted());
 		
 		return"admin/spaTherapies";
@@ -770,8 +1016,13 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value="/spaTherapy")
 	public String saveService(ModelMap map, Services services, @RequestParam String serviceName,@RequestParam String servicePrice,
 			@RequestParam String serviceDuration,
-			@RequestParam String serviceDescription, @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
+			@RequestParam String serviceDescription, @RequestParam MultipartFile imgFile,HttpSession session) throws IllegalStateException, IOException {
 		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+				
 		services.setImgFilePath(imgFile.getOriginalFilename());
 		servicesRepository.saveAndFlush(services);
 		map.put("serviceName", serviceName);
@@ -789,7 +1040,12 @@ public class AdminController {
 	
 	//delete service
 	@RequestMapping(method=RequestMethod.GET, value="/spaTherapy/delete/{id}")
-	public String deleteService(ModelMap map, @PathVariable(name="id") int id) {
+	public String deleteService(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		Services service=servicesRepository.findById(id);
 		service.setDeleted();
@@ -801,7 +1057,12 @@ public class AdminController {
 	
 	//show update service form
 	@RequestMapping(method=RequestMethod.GET, value="/spaTherapy/update/{id}")
-	public String updateServiceForm(ModelMap map, @PathVariable(name="id") int id) {
+	public String updateServiceForm(ModelMap map, @PathVariable(name="id") int id,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		map.addAttribute("therapy",servicesRepository.findById(id));		
 		return "admin/updateSpaTherapy";
@@ -810,8 +1071,12 @@ public class AdminController {
 	
 	//update service
 	@RequestMapping(method=RequestMethod.POST, value="/spaTherapy/{id}/updated")
-	public String updateService(ModelMap map, @PathVariable(name="id") int id, Services services) {
+	public String updateService(ModelMap map, @PathVariable(name="id") int id, Services services,HttpSession session) {
 		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
 		
 		//service.setImgFilePath(servicesRepository.findById(id).getImgFilePath());
 		Services service = servicesRepository.getOne(services.getId());
@@ -824,7 +1089,13 @@ public class AdminController {
 	
 	//services archive
 	@RequestMapping(method = RequestMethod.GET, value="/spaTherapies/archive")
-	public String servicesArchive(ModelMap map, Services services) {
+	public String servicesArchive(ModelMap map, Services services,HttpSession session) {
+		
+		String username = (String) session.getAttribute("userSession");
+		if(username == null)
+			return ("redirect:/admin/login");
+		map.addAttribute("username", username);
+		
 		map.addAttribute("therapiesList", servicesRepository.findByDeleted());
 		
 		return"admin/spaTherapies";
