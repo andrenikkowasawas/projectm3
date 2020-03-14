@@ -39,7 +39,7 @@ public class FeedbackController {
 	//saves guest feedback
 	@RequestMapping(method = RequestMethod.POST, value="/{id}/feedback")
 	public String guestFeedback(@PathVariable(name = "id") int guestId,ModelMap model, Feedback feedback) {
-		Guest guest = guestRepository.getOne(guestId);
+		Guest guest = guestRepository.findById(guestId);
 		model.addAttribute("guest", guest);
 		feedbackRepository.saveAndFlush(feedback);
 		return"guest/bye";

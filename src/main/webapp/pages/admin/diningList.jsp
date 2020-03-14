@@ -32,7 +32,8 @@ td {
 									<h3 class="box-title">RESTAURANTS</h3>
 
 									<div class="box-tools">
-														<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#diningModal">ADD DINING</button>
+														<button type="button" class="btn btn-primary pull-right"
+										data-toggle="modal" data-target="#diningModal">ADD DINING</button>
 									
 									</div>
 								</div>
@@ -54,9 +55,13 @@ td {
 													<td>${dining.diningName}</td>
 												<td width="50px"></td>
 												
-													<td><img style="width:40px; height:25px;" src="${pageContext.request.contextPath}/uploads/${dining.imgFilePath}"/></td>
-													<td><a href="http://localhost:8081/admin/dining/delete/${dining.id}">  <i class="material-icons">delete</i>
-</a> <a href="http://localhost:8081/admin/dining/update/${dining.id}"><i class="material-icons">edit</i></a></td>
+													<td><img style="width: 40px; height: 25px;"
+													src="${pageContext.request.contextPath}/uploads/${dining.imgFilePath}" /></td>
+													<td><a
+													href="http://localhost:8081/admin/dining/delete/${dining.id}">  <i
+														class="material-icons">delete</i>
+</a> <a href="http://localhost:8081/admin/dining/update/${dining.id}"><i
+														class="material-icons">edit</i></a></td>
 											</tr>
 											</c:forEach>
 										</tbody>
@@ -78,7 +83,8 @@ td {
 									<h3 class="box-title">THEMED DINER</h3>
 
 									<div class="box-tools">
-														<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#themedDinerModal">ADD THEMEDDINER</button>
+														<button type="button" class="btn btn-primary pull-right"
+										data-toggle="modal" data-target="#themedDinerModal">ADD THEMEDDINER</button>
 									
 									</div>
 								</div>
@@ -87,7 +93,8 @@ td {
 									<table class="table table-striped table-hover">
 
 
-										<tbody><tr>
+										<tbody>
+										<tr>
 											<th>ThemedDiner</th>
 												<th>Availability</th>
 													<th>Rate</th>
@@ -102,11 +109,17 @@ td {
 								<td>${td.rate}</td>		
 																			<th width="50px"></th>
 								
-								<td><img style="width:40px; height:25px;" src="${pageContext.request.contextPath}/uploads/${td.imgFilePath}"/></td>
-									<td><a href="http://localhost:8081/admin/themedDinerRemove/${td.id}"><i class="material-icons">delete</i></a> <a href="http://localhost:8081/admin/themedDinerUpdate/${td.id}"><i class="material-icons">edit</i></a></td>			
+								<td><img style="width: 40px; height: 25px;"
+													src="${pageContext.request.contextPath}/uploads/${td.imgFilePath}" /></td>
+									<td><a
+													href="http://localhost:8081/admin/themedDinerRemove/${td.id}"><i
+														class="material-icons">delete</i></a> <a
+													href="http://localhost:8081/admin/themedDinerUpdate/${td.id}"><i
+														class="material-icons">edit</i></a></td>			
 										</tr>
 										</c:forEach>
-										</tbody></table>
+										</tbody>
+								</table>
 
 								</div>
 								<!-- /.box-body -->
@@ -121,16 +134,20 @@ td {
 					
 					</div>
  
-  <div class="modal fade" id="diningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
+  <div class="modal fade" id="diningModal" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">x</span></button>
+						<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+							<span aria-hidden="true">x</span>
+								</button>
 						<h4 class="modal-title">ADD RESTAURANT</h4>
 					</div>
 					<div class="modal-body">
-						<form action="http://localhost:8081/admin/dininginfo" method="post" enctype="multipart/form-data">
+						<form action="http://localhost:8081/admin/dininginfo"
+									method="post" enctype="multipart/form-data">
 									  <div class="form-group">
 
 									<label>RESTAURANT</label>
@@ -146,7 +163,8 @@ td {
 									</div>
 												  <div class="form-group">
 									
-											<textarea name="diningDescription" style="width: 100%; height: 200px;" required></textarea>
+											<textarea name="diningDescription"
+											style="width: 100%; height: 200px;" required></textarea>
 							
 									</div>
 								
@@ -165,7 +183,8 @@ td {
 								
 								  <div class="form-group">
 
-												<button class="btn btn-primary" type="submit" style="margin-top: 10px;">SUBMIT</button>
+												<button class="btn btn-primary" type="submit"
+											style="margin-top: 10px;">SUBMIT</button>
 					
 					
 					</div>
@@ -189,16 +208,20 @@ td {
 				
 				
 				
-  <div class="modal fade" id="themedDinerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
+  <div class="modal fade" id="themedDinerModal" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">x</span></button>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">x</span>
+						</button>
 						<h4 class="modal-title">ADD THEMED DINING</h4>
 					</div>
 					<div class="modal-body">
-					<form action="http://localhost:8081/admin/themedDiner/view" method="post" enctype="multipart/form-data">
+					<form action="http://localhost:8081/admin/themedDiner/view"
+							method="post" enctype="multipart/form-data">
 			
 											  <div class="form-group">
 
@@ -216,7 +239,8 @@ td {
 					</div>
 													  <div class="form-group">
 					
-				<textarea name="description" style="width: 100%; height: 200px;" required></textarea>
+				<textarea name="description" style="width: 100%; height: 200px;"
+									required></textarea>
 				
 				</div>
 			
@@ -250,7 +274,7 @@ td {
 				</div>
 											  <div class="form-group">
 			
-				<button class ="btn btn-primary" type="submit">SUBMIT</button>
+				<button class="btn btn-primary" type="submit">SUBMIT</button>
 				</div>
 				
 				</form>

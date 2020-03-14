@@ -93,38 +93,7 @@
 				
 		</div>
 		
-		
-<!-- 				              <button type="button" style="margin-bottom: 10px;" class="btn btn-primary" data-toggle="modal" data-target="#guestModal">ADD ADDITIONAL</button> -->
-		
-<!-- 		<div class="row"> -->
-<!--         <div class="col-xs-12"> -->
-<!--           <div class="box box-info"> -->
-<!--             <div class="box-header"> -->
-<!--               <h3 class="box-title">Guest Additional</h3> -->
 
-              
-<!--             </div> -->
-<!--             /.box-header -->
-<!--             <div class="box-body table-responsive no-padding"> -->
-<!--               <table class="table table-hover"> -->
-<!--                 <tbody> -->
-<!--                 <tr> -->
-<!--                   <th>Name</th> -->
-<!--                   <th>Age</th> -->
-<!--                   <th>Gender</th> -->
-<!--                   <th>Nationality</th> -->
-<!--                 </tr> -->
-<!--               </tbody> -->
-<!--               </table> -->
-<!--             </div> -->
-<!--             /.box-body -->
-<!--           </div> -->
-<!--           /.box -->
-<!--         </div> -->
-<!--       </div> -->
-		
-		
-		
 		
 		<!-- ADD GUEST MODAL -->
 		
@@ -185,82 +154,14 @@
 
 
 
-	<button class="btn btn-primary" type="submit">Submit</button>
+	<button class="btn btn-primary" type="submit">SAVE</button>
 </form>
 					</div>	
 				</div>
 				</div>
 				</div>
 				
-<!-- 	<div class="modal fade" id="guestAdditionalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true"> -->
-<!-- <div class="modal-dialog"> -->
-<!-- 	<div class="modal-content"> -->
-<!-- 		<div class="modal-header"> -->
-<!-- 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-<!-- 				<span aria-hidden="true">x</span></button> -->
-<!-- 			<h4 class="modal-title">Additional Guest</h4> -->
-<!-- 		</div> -->
-<!-- 		<div class="modal-body"> -->
-<!-- 		<form action="#" method="post"> -->
 
-<!--   <div class="form-group"> -->
-<!--     <label for="guestFirstname">Firstname</label> -->
-<!--     <input type="text" class="form-control" name="guestFirstname" > -->
-<!--   </div> -->
-<!--   <div class="form-group"> -->
-<!--     <label for="guestLastname">Lastname</label> -->
-<!--     <input type="text" class="form-control" name="guestLastname" > -->
-<!--   </div> -->
-<!--   <div class="form-group"> -->
-<!--     <label for="guestAge">Age</label> -->
-<!--     <input type="text" class="form-control" name="guestAge" > -->
-<!--   </div> -->
-<!--   <div class="form-group"> -->
-<!--     <label for="guestGender">Gender</label> -->
-<!--     <select class="form-control" id="exampleFormControlSelect1" name="guestGender"> -->
-<!--       <option>Female</option> -->
-<!--       <option>Male</option> -->
-      
-<!--     </select> -->
-<!--   </div> -->
-<!--   <div class="form-group"> -->
-<!--     <label for="guestNationality">Nationality</label> -->
-<!--     <select class="form-control" id="exampleFormControlSelect1" name="guestNationality"> -->
-<!--       <option selected disabled>---Choose Nationality---</option> -->
-<!--       <option>Filipino</option> -->
-<!--       <option>Korean</option> -->
-<!--       <option>Chinese</option> -->
-<!--       <option>Japanese</option> -->
-<!--       <option>American</option> -->
-<!--       <option>others</option> -->
-      
-<!--     </select> -->
-<!--   </div> -->
-<!--    <div class="form-group"> -->
-<!--     <label for="guestPhoneNum">Phone Number</label> -->
-<!--     <input type="text" class="form-control" name="guestPhoneNum" > -->
-<!--   </div> -->
-<!--    <div class="form-group"> -->
-<!--     <label for="guestEmailAddress">Email Address</label> -->
-<!--     <input type="email" class="form-control" name="guestEmailAddress" > -->
-<!--   </div> -->
- 
-					
-
-
-
-<!-- 	<button class="btn btn-primary" type="submit">Submit</button> -->
-<!-- </form> -->
-<!-- 					</div> -->
-					
-	<!-- 	END of ADD GUEST MODAL --> 
-					
-					
-					
-<!-- 				</div> -->
-<!-- 				</div> -->
-<!-- 				</div> -->
-          
 			</section>
 		</div>
 		

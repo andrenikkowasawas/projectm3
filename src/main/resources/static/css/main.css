@@ -52,6 +52,8 @@ background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
  	margin-top: 50px;
  	padding: 20px;
  	font-size: 40px;
+
+ 	
 }
 
 .menubtn{
@@ -425,3 +427,86 @@ font-size: 20px;
 	height:400px;
 }
 
+.footer {
+   position: fixed;
+  float:right;
+   bottom: 0;
+   width: 100%;
+}
+
+.h3-activities-color{
+	 color: #1a74bc;
+}
+
+.activities-items{
+	margin-left: 40px;
+	 margin-top: 50px;
+	  width: 580px;
+	   height: 100px;
+	    border-radius: 5px;
+}
+.activities-img{
+	border-radius: 50%;
+	 width: 200px;
+	  height: 200px;
+	   margin-top: -150px;
+}
+
+.adventures-p{
+	margin-top: -80px;
+	 color:black;
+}
+
+.adv{
+	margin-left: 80px; 
+	font-size: 25px;
+	 width: 125px; 
+}
+
+.carousel-item-div{
+	width: 700px;
+	 height: 120px;
+	  margin-left: -105px;
+}
+
+.gym-img{
+	width: 270px;
+	 height: 260px;
+}
+
+.gym-p{
+ font-family: 'Varela Round', sans-serif;
+  color: black; 
+  font-size: 15px;
+}
+
+.salon-p{
+	font-family: 'Varela Round', sans-serif;
+	 color:black;
+	  font-size: 15px;
+}
+
+.salon-img{
+	width:270px; 
+	height: 260px;
+}
+
+.serviceinfo-img{
+	width: 230px;
+	 height: 260px;
+}
+
+.dining-p{
+margin-top: -50px; 
+color:black;
+ font-size: 25px;
+}
+
+.resort-desc-td{
+	margin-right: 50px;
+}
+
+.resort-contact-td{
+	color: #0099ff !important;
+	 font-size: 40px;
+}

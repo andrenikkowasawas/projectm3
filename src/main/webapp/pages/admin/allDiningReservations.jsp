@@ -40,36 +40,31 @@
 										<tbody>
 											<tr>
 												<th>Guest</th>
-			<th>Restaurant</th>
-			<th>Date</th>
-			<th>Arrival Time</th>
-			<th>No. of Guests</th>
-			<th>Status</th>
-			<th>Action</th>
-										
+												<th>Restaurant</th>
+												<th>Date</th>
+												<th>Arrival Time</th>
+												<th>No. of Guests</th>
+												<th>Status</th>
+												<th>Action</th>
 											</tr>
 						         <c:forEach items="${diningReservations}" var="dr">
 											<tr>
-											
-													<td>${dr.guest.guestFirstname } ${dr.guest.guestLastname }</td>
-			<td>${dr.dining.diningName }</td>
-			<td><fmt:formatDate pattern='MM/dd/yyy' type = 'date'  value = '${dr.diningReservationDate}' /></td>
-			
-			<td>${dr.diningReservationTimeRange }</td>
-						<td>${dr.diningReservationGoodFor }</td>
+												<td>${dr.guest.guestFirstname } ${dr.guest.guestLastname }</td>
+												<td>${dr.dining.diningName }</td>
+												<td><fmt:formatDate pattern='MM/dd/yyy' type = 'date'  value = '${dr.diningReservationDate}' /></td>
+												<td>${dr.diningReservationTimeRange }</td>
+												<td>${dr.diningReservationGoodFor }</td>
 												<td>${dr.status }</td>
-												<c:choose>
-         
-         <c:when test = "${dr.status == 'Open'}">
+								<c:choose>
+   								 <c:when test = "${dr.status == 'Open'}">
 												<td><a href="http://localhost:8081/admin/dining/reservation/all/update/${dr.id}">CLOSE</a></td>
-        </c:when>
-         
-         <c:otherwise>
+  								</c:when>
+ 								<c:otherwise>
 												<td><a href="http://localhost:8081/admin/dining/reservation/all/delete/${dr.id}">DELETE</a></td>
-         </c:otherwise>
-      </c:choose>
-						
-											</tr>
+         						</c:otherwise>
+      							</c:choose>
+		
+			</tr>
 											</c:forEach>
 										</tbody>
 									</table>
@@ -82,21 +77,7 @@
 			
 			
 			</div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		
-			
-			
 			
 </section></div>
 <script>

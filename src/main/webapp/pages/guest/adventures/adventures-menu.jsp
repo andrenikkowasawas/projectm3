@@ -29,14 +29,14 @@
 <div class="d-flex justify-content-center boxboard">
     
     <div  class="relax"> <a href="http://localhost:8081/guest/1/adventures/aquamania"><img class="adventures-menu-img polaroid" src="${pageContext.request.contextPath}/image/aquamania.png" alt="aquamania" > </a>
-  <div style="margin-left: 80px; font-size: 25px; width: 125px; " >
-<p class="display-5" style="margin-top: -80px; color:black;">Aquamania</p>
+  <div class="adv"  >
+<p class="display-5 adventures-p" >Aquamania</p>
 </div>
 </div> 
 
    <div  class="relax"> <a href="http://localhost:8081/guest/1/adventures/activities"><img class="adventures-menu-img polaroid" src="${pageContext.request.contextPath}/image/activities.png" alt="leisure activities"></a>
-  <div style="margin-left: 80px; font-size: 25px; width: 125px; " >
-<p class="display-5" style="margin-top: -80px; color:black;">Leisure Activities</p>
+  <div class="adv"  >
+<p class="display-5 adventures-p">Leisure Activities</p>
 </div>
 </div> 
  
