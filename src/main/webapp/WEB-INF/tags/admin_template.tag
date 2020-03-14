@@ -112,15 +112,20 @@
 		  margin-right: auto;
 			}
 		</style>
-    <a href="#">
-       <img id="asd"src="${pageContext.request.contextPath}/image/bluewaterlogo.png" class="center" width="auto" height="75"  alt="Responsive image">
-	</a> 
+    
 	
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li ><hr style="background-color:blue;"></li>
+        
+       
+       
+       <li class="header">
+       <img id="asd"src="${pageContext.request.contextPath}/image/bluewaterlogo.png" class="center" width="auto" height="75"  alt="Responsive image">
+		</li>
+        
+        
         <!--        THIS HOME! -->
-
+	
         <li>
           <a href="/admin/home">
             <i class="fa fa-home"></i> <span>ROOMS </span>
