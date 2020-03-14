@@ -70,22 +70,22 @@ td {
 					
 						<form action="http://localhost:8081/admin/spaTherapy" method="post" enctype="multipart/form-data">
 		<label>Therapy:</label>
-		<input type="text" class="form-control" name="serviceName">
+		<input type="text" class="form-control" name="serviceName" required>
 	
 		<label>Description:</label>
-		<textarea class="form-control"  name="serviceDescription"></textarea>
+		<textarea class="form-control"  name="serviceDescription" required></textarea>
 		
 		<label>Duration:</label>
-		<input type="text" class="form-control" name="serviceDuration">
+		<input type="text" class="form-control" name="serviceDuration" required>
 		
 		<label>Price:</label>
-		<input type="text" class="form-control" name="servicePrice">
+		<input type="text" class="form-control" name="servicePrice" required>
 		<div class="form-group">
 			<label>Upload photo:</label>
 			</div>
 					<div class="form-group">
 			
-	<input type="file" name="imgFile">
+	<input type="file" name="imgFile" required>
 	</div>
 
 <button class="btn btn-primary" type="submit">Submit</button>

@@ -140,20 +140,20 @@
 						<form action="http://localhost:8081/admin/room/${room.id}/guest/view" method="post">
 
   <div class="form-group">
-    <label for="guestFirstname">Firstname</label>
+    <label for="guestFirstname" >Firstname</label>
     <input type="text" class="form-control" name="guestFirstname" >
   </div>
   <div class="form-group">
     <label for="guestLastname">Lastname</label>
-    <input type="text" class="form-control" name="guestLastname" >
+    <input type="text" class="form-control" name="guestLastname" required>
   </div>
   <div class="form-group">
     <label for="guestAge">Age</label>
-    <input type="text" class="form-control" name="guestAge" >
+    <input type="text" class="form-control" name="guestAge" required>
   </div>
   <div class="form-group">
     <label for="guestGender">Gender</label>
-    <select class="form-control" id="exampleFormControlSelect1" name="guestGender">
+    <select class="form-control" id="exampleFormControlSelect1" name="guestGender" required>
       <option>Female</option>
       <option>Male</option>
       
@@ -161,7 +161,7 @@
   </div>
   <div class="form-group">
     <label for="guestNationality">Nationality</label>
-    <select class="form-control" id="exampleFormControlSelect1" name="guestNationality">
+    <select class="form-control" id="exampleFormControlSelect1" name="guestNationality" required>
       <option selected disabled>---Choose Nationality---</option>
       <option>Filipino</option>
       <option>Korean</option>
@@ -174,11 +174,11 @@
   </div>
    <div class="form-group">
     <label for="guestPhoneNum">Phone Number</label>
-    <input type="text" class="form-control" name="guestPhoneNum" >
+    <input type="text" class="form-control" name="guestPhoneNum" required>
   </div>
    <div class="form-group">
     <label for="guestEmailAddress">Email Address</label>
-    <input type="email" class="form-control" name="guestEmailAddress" >
+    <input type="email" class="form-control" name="guestEmailAddress" required>
   </div>
  
 					

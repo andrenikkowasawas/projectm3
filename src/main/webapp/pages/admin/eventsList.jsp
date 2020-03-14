@@ -64,11 +64,11 @@ td {
 
   <div class="form-group">
     <label for="eventName">Event Name</label>
-    <input type="text" class="form-control" name="eventName" >
+    <input type="text" class="form-control" name="eventName" required>
   </div>
   <div class="form-group">
     <label for="imgFile">Upload Photo</label>
-    <input type="file" class="form-control" name="imgFile" >
+    <input type="file" class="form-control" name="imgFile" required>
   </div>
   
  

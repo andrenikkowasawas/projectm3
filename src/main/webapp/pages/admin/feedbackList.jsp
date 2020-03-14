@@ -28,58 +28,19 @@ td {
 					<th>Comment</th>
 					<th>Rating</th>
 					
-<!--                 </tr> -->
-<%--          <c:forEach items="${feedbackList}" var="fl"> --%>
-<!-- 				<tr>		  	 -->
-<%-- 					<td>${fl.id}</td> --%>
-<%-- 					<td>${fl.comment}</td>	 --%>
-<%-- 					<td>${fl.rating}</td> --%>
+                 </tr>
+       <c:forEach items="${feedbackList}" var="fl"> 
+				<tr>		  	
+					<td>${fl.id}</td> 
+					<td>${fl.comment}</td>	 
+					<td>${fl.rating}</td> 
 						
 					
 			
-<!-- 				</tr> -->
-<%-- 		</c:forEach> --%>
+			</tr> 
+		</c:forEach> 
 		
-				<tr>		  	
-					<td>1</td>
-					<td>Best Hotel Experience in my life</td>	
-					<td>excellent</td>
-						
-					
-			
-				</tr>
-				<tr>		  	
-					<td>2</td>
-					<td>average at best</td>	
-					<td>average</td>
-						
-					
-			
-				</tr>
-				<tr>		  	
-					<td>3</td>
-					<td>meh.... Restaurant is too noisy</td>	
-					<td>poor</td>
-						
-					
-			
-				</tr>
-				<tr>		  	
-					<td>4</td>
-					<td>Experience is so great especially the bed which is pretty comfy.</td>	
-					<td>good</td>
-						
-					
-			
-				</tr>
-				<tr>		  	
-					<td>5</td>
-					<td>good</td>	
-					<td>excellent</td>
-						
-					
-			
-				</tr>
+				
            </tbody></table>
             </div>
             <!-- /.box-body -->

@@ -63,13 +63,13 @@ td {
 					<div class="modal-body">
 					<form action="http://localhost:8081/admin/resortServicesInfo" method="post">
 		<label>Service name:</label>
-		<input type="text" class="form-control" name="resortServiceName">
+		<input type="text" class="form-control" name="resortServiceName" required>
 	
 		<label>Description:</label>
-		<textarea class="form-control"  name="resortServiceDescription"></textarea>
+		<textarea class="form-control"  name="resortServiceDescription" required></textarea>
 	
 		<label>Contact #:</label>
-		<input type="text" class="form-control"  name="resortServiceContact">
+		<input type="text" class="form-control"  name="resortServiceContact" required>
 	
 
 <button class="btn btn-primary" type="submit">Submit</button>

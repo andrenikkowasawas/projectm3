@@ -975,7 +975,7 @@ public class AdminController {
 			return ("redirect:/admin/login");
 		map.addAttribute("username", username);
 		
-		map.addAttribute("feedbacklist", feedBackRepository.findByNotDeleted());
+		map.addAttribute("feedbackList", feedBackRepository.findAll());
 		
 		return "admin/feedbackList";
 	}

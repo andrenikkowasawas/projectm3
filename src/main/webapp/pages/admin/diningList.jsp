@@ -137,7 +137,7 @@ td {
 									</div>
 												  <div class="form-group">
 									
-									<input type="text" name="diningName">
+									<input type="text" name="diningName" required>
 									</div>
 								
 								  <div class="form-group">
@@ -146,7 +146,7 @@ td {
 									</div>
 												  <div class="form-group">
 									
-											<textarea name="diningDescription" style="width: 100%; height: 200px;"></textarea>
+											<textarea name="diningDescription" style="width: 100%; height: 200px;" required></textarea>
 							
 									</div>
 								
@@ -158,7 +158,7 @@ td {
 				</div>
 							  <div class="form-group">
 				
-				<input type="file" name="imgFile" id="imgFile" multiple>
+				<input type="file" name="imgFile" id="imgFile" multiple required>
 				</div>
 			
 									
@@ -206,7 +206,7 @@ td {
 				</div>
 												  <div class="form-group">
 				
-				<input type="text" name="themedDinerName">
+				<input type="text" name="themedDinerName" required>
 				
 				</div>
 			
@@ -216,7 +216,7 @@ td {
 					</div>
 													  <div class="form-group">
 					
-				<textarea name="description" style="width: 100%; height: 200px;"></textarea>
+				<textarea name="description" style="width: 100%; height: 200px;" required></textarea>
 				
 				</div>
 			
@@ -226,7 +226,7 @@ td {
 				</div>
 												  <div class="form-group">
 				
-				<input type="text" name="themedDinerAvailability">
+				<input type="text" name="themedDinerAvailability" required>
 				</div>
 											  <div class="form-group">
 
@@ -235,7 +235,7 @@ td {
 				</div>
 												  <div class="form-group">
 				
-				<input type="text" name="rate">
+				<input type="text" name="rate" required>
 				
 				</div>
 											  <div class="form-group">
@@ -245,7 +245,7 @@ td {
 				</div>
 												  <div class="form-group">
 				
-				<input type="file" name="imgFile" id="imgFile" multiple>
+				<input type="file" name="imgFile" id="imgFile" multiple required>
 				
 				</div>
 											  <div class="form-group">

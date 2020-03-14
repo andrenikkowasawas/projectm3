@@ -98,7 +98,7 @@
 							
 								<label for="roomNo">Room No.</label>
 <!-- 								<input type="text" name = "roomNo"> -->
-								<input class="form-control" id ="roomNo" placeholder ="ROOM NUMBER!" name = "roomNo">
+								<input class="form-control" id ="roomNo" placeholder ="ROOM NUMBER!" name = "roomNo" required>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>

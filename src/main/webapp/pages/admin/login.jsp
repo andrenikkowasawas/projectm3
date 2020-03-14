@@ -38,11 +38,11 @@
 
     <form action="/admin/adminLogin" method="post">
       <div class="form-group has-feedback">
-        <input  class="form-control" placeholder="Admin" name = "username">
+        <input  class="form-control" placeholder="Admin" name = "username" required>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" name = "password">
+        <input type="password" class="form-control" placeholder="Password" name = "password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -52,7 +52,7 @@
         <!-- /.col -->
         <div class="col-xs-4">
 <!--           <a href="/admin/home" class="btn btn-primary btn-block btn-flat">Sign In</a> -->
-          <button type = "submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type = "submit" class="btn btn-primary btn-block btn-flat" >Sign In</button>
         </div>
         <!-- /.col -->
       </div>

@@ -62,7 +62,7 @@ td {
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">x</span></button>
-						<h4 class="modal-title">ADD CATEGORY</h4>
+						<h4 class="modal-title">ADD MENU</h4>
 					</div>
 					<div class="modal-body">
 						
@@ -74,7 +74,7 @@ td {
 									</div>
 												  <div class="form-group">
 									
-									<input type="text" name="menuName">
+									<input type="text" name="menuName" required>
 									</div>
 								
 												  <div class="form-group">
@@ -83,7 +83,7 @@ td {
 									</div>
 												  <div class="form-group">
 									
-										<input type="text" name="menuPrice">									
+										<input type="text" name="menuPrice" required>									
 								</div>
 								<div class="form-group">
 
@@ -91,12 +91,12 @@ td {
 									</div>
 												  <div class="form-group">
 									
-<textarea name="menuDescription" style="width:100%;">	</textarea>							</div>
+<textarea name="menuDescription" style="width:100%;" required>	</textarea>							</div>
 									<div class="form-group">
 									<label>IMAGE</label>
 									</div>
 												  <div class="form-group">
-									<input type="file" name="imgFile" >
+									<input type="file" name="imgFile" required>
 					</div>
 								
 							<div class="modal-footer">
